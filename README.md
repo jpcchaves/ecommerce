@@ -11,8 +11,8 @@
 ### Entities creation
 <ol>
     <li>Marca_Produto - ok</li>
-    <li>Categoria_Produto</li>
-    <li>Acesso</li>
+    <li>Categoria_Produto - ok</li>
+    <li>Acesso - ok</li>
     <li>Pessoa</li>
     <li>Pessoa_Juridica</li>
     <li>Pessoa_Fisica</li>
