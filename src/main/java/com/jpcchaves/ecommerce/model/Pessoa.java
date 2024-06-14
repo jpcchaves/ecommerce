@@ -1,6 +1,8 @@
 package com.jpcchaves.ecommerce.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.*;
 
@@ -17,6 +19,23 @@ public abstract class Pessoa implements Serializable {
   private String nome;
   private String email;
   private String telefone;
+
+  @OneToMany(
+      mappedBy = "pessoa",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
+  private List<Endereco> enderecos = new ArrayList<>();
+
+  public Pessoa() {}
+
+  public Pessoa(Long id, String nome, String email, String telefone, List<Endereco> enderecos) {
+    this.id = id;
+    this.nome = nome;
+    this.email = email;
+    this.telefone = telefone;
+    this.enderecos = enderecos;
+  }
 
   public Long getId() {
     return id;
@@ -50,14 +69,31 @@ public abstract class Pessoa implements Serializable {
     this.telefone = telefone;
   }
 
+  public List<Endereco> getEnderecos() {
+    return enderecos;
+  }
+
+  public void setEnderecos(List<Endereco> enderecos) {
+    this.enderecos = enderecos;
+  }
+
   @Override
   public String toString() {
-    return "Pessoa{" +
-        "id=" + id +
-        ", nome='" + nome + '\'' +
-        ", email='" + email + '\'' +
-        ", telefone='" + telefone + '\'' +
-        '}';
+    return "Pessoa{"
+        + "id="
+        + id
+        + ", nome='"
+        + nome
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", telefone='"
+        + telefone
+        + '\''
+        + ", enderecos="
+        + enderecos
+        + '}';
   }
 
   @Override
