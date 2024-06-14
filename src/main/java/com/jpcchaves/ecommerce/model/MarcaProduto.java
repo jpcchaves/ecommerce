@@ -2,6 +2,7 @@ package com.jpcchaves.ecommerce.model;
 
 import javax.persistence.*;
 import java.io.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "marca_produto")
@@ -28,5 +29,26 @@ public class MarcaProduto implements Serializable {
 
     public void setNomeDesc(String nomeDesc) {
         this.nomeDesc = nomeDesc;
+    }
+
+    @Override
+    public String toString() {
+        return "MarcaProduto{" +
+            "id=" + id +
+            ", nomeDesc='" + nomeDesc + '\'' +
+            '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MarcaProduto that = (MarcaProduto) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }
