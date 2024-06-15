@@ -1,5 +1,6 @@
 package com.jpcchaves.ecommerce.model;
 
+import com.jpcchaves.ecommerce.enums.TipoEndereco;
 import java.io.*;
 import java.util.Objects;
 import javax.persistence.*;
@@ -29,6 +30,9 @@ public class Endereco implements Serializable {
       foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
   private Pessoa pessoa;
 
+  @Enumerated(EnumType.STRING)
+  private TipoEndereco tipoEndereco;
+
   public Endereco() {}
 
   public Endereco(
@@ -40,7 +44,8 @@ public class Endereco implements Serializable {
       String bairro,
       String uf,
       String cidade,
-      Pessoa pessoa) {
+      Pessoa pessoa,
+      TipoEndereco tipoEndereco) {
     this.id = id;
     this.ruaLogradouro = ruaLogradouro;
     this.cep = cep;
@@ -50,6 +55,7 @@ public class Endereco implements Serializable {
     this.uf = uf;
     this.cidade = cidade;
     this.pessoa = pessoa;
+    this.tipoEndereco = tipoEndereco;
   }
 
   public Long getId() {
@@ -124,6 +130,14 @@ public class Endereco implements Serializable {
     this.pessoa = pessoa;
   }
 
+  public TipoEndereco getTipoEndereco() {
+    return tipoEndereco;
+  }
+
+  public void setTipoEndereco(TipoEndereco tipoEndereco) {
+    this.tipoEndereco = tipoEndereco;
+  }
+
   @Override
   public String toString() {
     return "Endereco{"
@@ -152,6 +166,8 @@ public class Endereco implements Serializable {
         + '\''
         + ", pessoa="
         + pessoa
+        + ", tipoEndereco="
+        + tipoEndereco
         + '}';
   }
 
