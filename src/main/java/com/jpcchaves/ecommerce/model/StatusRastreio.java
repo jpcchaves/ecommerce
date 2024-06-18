@@ -24,7 +24,15 @@ public class StatusRastreio implements Serializable {
   private String estado;
   private String status;
 
-  // Todo: add relation with Vd_Cp_Loja_Virtual
+  @ManyToOne
+  @JoinColumn(
+      name = "venda_compra_loja_virtual_id",
+      nullable = false,
+      foreignKey =
+          @ForeignKey(
+              value = ConstraintMode.CONSTRAINT,
+              name = "venda_compra_loja_virtual_pk"))
+  private VendaCompraLojaVirtual vendaCompraLojaVirtual;
 
   public StatusRastreio() {}
 
@@ -79,6 +87,15 @@ public class StatusRastreio implements Serializable {
 
   public void setStatus(String status) {
     this.status = status;
+  }
+
+  public VendaCompraLojaVirtual getVendaCompraLojaVirtual() {
+    return vendaCompraLojaVirtual;
+  }
+
+  public void setVendaCompraLojaVirtual(
+      VendaCompraLojaVirtual vendaCompraLojaVirtual) {
+    this.vendaCompraLojaVirtual = vendaCompraLojaVirtual;
   }
 
   @Override
