@@ -4,18 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "nota_fiscal_compra")
@@ -28,16 +17,28 @@ public class NotaFiscalCompra implements Serializable {
   private static final long serialVersionUID = -1163633109454200315L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_nota_fiscal_compra")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_nota_fiscal_compra")
   private Long id;
 
+  @Column(nullable = false)
   private String numeroNota;
+
+  @Column(nullable = false)
   private String serieNota;
+
   private String descricaoObs;
+
+  @Column(nullable = false)
   private BigDecimal valorTotal;
+
   private BigDecimal valorDesconto;
+
+  @Column(nullable = false)
   private BigDecimal valorIcms;
 
+  @Column(nullable = false)
   @Temporal(TemporalType.DATE)
   private Date dataCompra;
 
@@ -45,14 +46,18 @@ public class NotaFiscalCompra implements Serializable {
   @JoinColumn(
       name = "pessoa_id",
       nullable = false,
-      foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+      foreignKey =
+          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
   private Pessoa pessoa;
 
   @ManyToOne
   @JoinColumn(
       name = "conta_pagar_id",
       nullable = false,
-      foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "conta_pagar_fk"))
+      foreignKey =
+          @ForeignKey(
+              value = ConstraintMode.CONSTRAINT,
+              name = "conta_pagar_fk"))
   private ContaPagar contaPagar;
 
   public Long getId() {
