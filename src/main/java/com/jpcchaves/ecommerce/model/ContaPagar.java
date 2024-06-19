@@ -5,57 +5,58 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "conta_pagar")
-@SequenceGenerator(name = "seq_conta_pagar", sequenceName = "seq_conta_pagar", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_conta_pagar",
+    sequenceName = "seq_conta_pagar",
+    allocationSize = 1)
 public class ContaPagar implements Serializable {
   private static final long serialVersionUID = -4014739241814589240L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_conta_pagar")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_conta_pagar")
   private Long id;
 
+  @Column(nullable = false)
   private String descricao;
 
+  @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private StatusContaPagar status;
 
+  @Column(nullable = false)
   @Temporal(TemporalType.DATE)
   private Date dtVencimento;
 
   @Temporal(TemporalType.DATE)
   private Date dtPagamento;
 
+  @Column(nullable = false)
   private BigDecimal valorTotal;
+
   private BigDecimal valorDesconto;
 
   @ManyToOne(targetEntity = Pessoa.class)
   @JoinColumn(
       name = "pessoa_id",
       nullable = false,
-      foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+      foreignKey =
+          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
   private Pessoa pessoa;
 
   @ManyToOne(targetEntity = Pessoa.class)
   @JoinColumn(
       name = "pessoa_forn_id",
       nullable = false,
-      foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_forn_fk"))
+      foreignKey =
+          @ForeignKey(
+              value = ConstraintMode.CONSTRAINT,
+              name = "pessoa_forn_fk"))
   private Pessoa pessoa_fornecedor;
 
   public ContaPagar() {}
