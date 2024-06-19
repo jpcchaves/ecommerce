@@ -4,26 +4,26 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "cup_desc")
-@SequenceGenerator(name = "seq_cup_desc", sequenceName = "seq_cup_desc", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_cup_desc",
+    sequenceName = "seq_cup_desc",
+    allocationSize = 1)
 public class CupDesc implements Serializable {
   private static final long serialVersionUID = -5188393956743092634L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_cup_desc")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_cup_desc")
   private Long id;
 
+  @Column(nullable = false)
   private String codDesc;
+
   private BigDecimal valorRealDesc;
   private BigDecimal valorPorcentDesc;
 
