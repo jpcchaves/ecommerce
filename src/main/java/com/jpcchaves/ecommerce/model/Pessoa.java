@@ -8,7 +8,10 @@ import javax.persistence.*;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_pessoa",
+    sequenceName = "seq_pessoa",
+    allocationSize = 1)
 public abstract class Pessoa implements Serializable {
   private static final long serialVersionUID = 6231994013157388754L;
 
@@ -16,8 +19,13 @@ public abstract class Pessoa implements Serializable {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_pessoa")
   private Long id;
 
+  @Column(nullable = false)
   private String nome;
+
+  @Column(nullable = false)
   private String email;
+
+  @Column(nullable = false)
   private String telefone;
 
   @OneToMany(
@@ -29,7 +37,12 @@ public abstract class Pessoa implements Serializable {
 
   public Pessoa() {}
 
-  public Pessoa(Long id, String nome, String email, String telefone, List<Endereco> enderecos) {
+  public Pessoa(
+      Long id,
+      String nome,
+      String email,
+      String telefone,
+      List<Endereco> enderecos) {
     this.id = id;
     this.nome = nome;
     this.email = email;

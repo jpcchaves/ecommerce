@@ -1,31 +1,37 @@
 package com.jpcchaves.ecommerce.model;
 
-import javax.persistence.Entity;
-import javax.persistence.PrimaryKeyJoinColumn;
-import javax.persistence.Table;
 import java.io.Serializable;
+import javax.persistence.*;
+
 @Entity
 @Table(name = "pessoa_juridica")
 @PrimaryKeyJoinColumn(name = "id")
 public class PessoaJuridica extends Pessoa implements Serializable {
   private static final long serialVersionUID = -7283560402401510313L;
 
+  @Column(nullable = false)
   private String cnpj;
+
   private String inscEstadual;
   private String inscMunicipal;
+
+  @Column(nullable = false)
   private String nomeFanstasia;
+
+  @Column(nullable = false)
   private String razaoSocial;
+
   private String categoria;
 
-  public PessoaJuridica() {
-  }
+  public PessoaJuridica() {}
 
-  public PessoaJuridica(String cnpj,
-                        String inscEstadual,
-                        String inscMunicipal,
-                        String nomeFanstasia,
-                        String razaoSocial,
-                        String categoria) {
+  public PessoaJuridica(
+      String cnpj,
+      String inscEstadual,
+      String inscMunicipal,
+      String nomeFanstasia,
+      String razaoSocial,
+      String categoria) {
     this.cnpj = cnpj;
     this.inscEstadual = inscEstadual;
     this.inscMunicipal = inscMunicipal;
@@ -36,13 +42,25 @@ public class PessoaJuridica extends Pessoa implements Serializable {
 
   @Override
   public String toString() {
-    return "PessoaJuridica{" +
-        "cnpj='" + cnpj + '\'' +
-        ", inscEstadual='" + inscEstadual + '\'' +
-        ", inscMunicipal='" + inscMunicipal + '\'' +
-        ", nomeFanstasia='" + nomeFanstasia + '\'' +
-        ", razaoSocial='" + razaoSocial + '\'' +
-        ", categoria='" + categoria + '\'' +
-        '}';
+    return "PessoaJuridica{"
+        + "cnpj='"
+        + cnpj
+        + '\''
+        + ", inscEstadual='"
+        + inscEstadual
+        + '\''
+        + ", inscMunicipal='"
+        + inscMunicipal
+        + '\''
+        + ", nomeFanstasia='"
+        + nomeFanstasia
+        + '\''
+        + ", razaoSocial='"
+        + razaoSocial
+        + '\''
+        + ", categoria='"
+        + categoria
+        + '\''
+        + '}';
   }
 }
