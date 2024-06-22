@@ -1,18 +1,15 @@
 package com.jpcchaves.ecommerce.service.impl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.jpcchaves.ecommerce.model.PessoaFisica;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
 import com.jpcchaves.ecommerce.repository.PessoaRepository;
 import java.util.Date;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -40,20 +37,18 @@ class PessoaServiceImplTest {
 
   @Test
   void whenCreateThenReturnSuccess() {
+    Mockito.when(pessoaRepository.save(pessoaFisica))
+        .thenReturn(pessoaFisica);
 
-    when(pessoaRepository.save(any())).thenReturn(
-        PESSOA_CREATE_SUCCESS_MESSAGE);
+    String message = pessoaService.create(pessoaJuridica);
 
-    String response = pessoaService.create(pessoaFisica);
-
-    assertNotNull(response);
-    assertEquals(PESSOA_CREATE_SUCCESS_MESSAGE, response);
+    Assertions.assertEquals(PESSOA_CREATE_SUCCESS_MESSAGE, message);
   }
 
   private void startPessoas() {
     pessoaFisica = new PessoaFisica();
 
-    pessoaFisica.setId(ID_PF);
+    pessoaFisica.setId(11111L);
     pessoaFisica.setNome("João");
     pessoaFisica.setEmail("joao@example.com");
     pessoaFisica.setTelefone("123456789");
@@ -62,7 +57,7 @@ class PessoaServiceImplTest {
 
     pessoaJuridica = new PessoaJuridica();
 
-    pessoaFisica.setId(ID_PJ);
+    pessoaJuridica.setId(11111333L);
     pessoaJuridica.setRazaoSocial("Minha Empresa Ltda.");
     pessoaJuridica.setNomeFanstasia("Nome Fantasia da Minha Empresa LTDA");
     pessoaJuridica.setCnpj("12345678901234");
