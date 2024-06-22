@@ -5,6 +5,10 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pessoa_juridica")
+@PrimaryKeyJoinColumn(
+    name = "pessoa_id",
+    referencedColumnName = "id",
+    foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 public class PessoaJuridica extends Pessoa implements Serializable {
   private static final long serialVersionUID = -7283560402401510313L;
 
