@@ -1,7 +1,12 @@
 package com.jpcchaves.ecommerce.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.ConstraintMode;
+import javax.persistence.Entity;
+import javax.persistence.ForeignKey;
+import javax.persistence.PrimaryKeyJoinColumn;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "pessoa_juridica")
@@ -40,6 +45,54 @@ public class PessoaJuridica extends Pessoa implements Serializable {
     this.inscMunicipal = inscMunicipal;
     this.nomeFanstasia = nomeFanstasia;
     this.razaoSocial = razaoSocial;
+    this.categoria = categoria;
+  }
+
+  public String getCnpj() {
+    return cnpj;
+  }
+
+  public void setCnpj(String cnpj) {
+    this.cnpj = cnpj;
+  }
+
+  public String getInscEstadual() {
+    return inscEstadual;
+  }
+
+  public void setInscEstadual(String inscEstadual) {
+    this.inscEstadual = inscEstadual;
+  }
+
+  public String getInscMunicipal() {
+    return inscMunicipal;
+  }
+
+  public void setInscMunicipal(String inscMunicipal) {
+    this.inscMunicipal = inscMunicipal;
+  }
+
+  public String getNomeFanstasia() {
+    return nomeFanstasia;
+  }
+
+  public void setNomeFanstasia(String nomeFanstasia) {
+    this.nomeFanstasia = nomeFanstasia;
+  }
+
+  public String getRazaoSocial() {
+    return razaoSocial;
+  }
+
+  public void setRazaoSocial(String razaoSocial) {
+    this.razaoSocial = razaoSocial;
+  }
+
+  public String getCategoria() {
+    return categoria;
+  }
+
+  public void setCategoria(String categoria) {
     this.categoria = categoria;
   }
 
