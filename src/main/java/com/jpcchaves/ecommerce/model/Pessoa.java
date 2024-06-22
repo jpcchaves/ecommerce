@@ -7,11 +7,8 @@ import java.util.Objects;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-@SequenceGenerator(
-    name = "seq_pessoa",
-    sequenceName = "seq_pessoa",
-    allocationSize = 1)
+@Inheritance(strategy = InheritanceType.JOINED)
+@SequenceGenerator(name = "seq_pessoa", sequenceName = "seq_pessoa", allocationSize = 1)
 public abstract class Pessoa implements Serializable {
   private static final long serialVersionUID = 6231994013157388754L;
 
