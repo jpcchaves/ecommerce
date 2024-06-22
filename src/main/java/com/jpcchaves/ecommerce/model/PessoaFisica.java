@@ -6,7 +6,6 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "pessoa_fisica")
-@PrimaryKeyJoinColumn(name = "id")
 public class PessoaFisica extends Pessoa implements Serializable {
   private static final long serialVersionUID = 1988296739060279654L;
 
