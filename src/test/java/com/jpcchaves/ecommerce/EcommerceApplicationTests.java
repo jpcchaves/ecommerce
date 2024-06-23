@@ -3,7 +3,7 @@ package com.jpcchaves.ecommerce;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(classes = EcommerceApplicationTests.class)
 class EcommerceApplicationTests {
 
   @Test
