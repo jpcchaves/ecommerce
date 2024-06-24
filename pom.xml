@@ -15,8 +15,11 @@
     <name>ecommerce</name>
     <description>Demo project for an Ecommerce API</description>
     <properties>
+        <project.version>0.0.1</project.version>
+        <maven.plugin.version>3.0.1</maven.plugin.version>
         <java.version>11</java.version>
         <postgres.driver.version>42.2.5</postgres.driver.version>
+        <junit.version>4.13.2</junit.version>
     </properties>
     <dependencies>
         <dependency>
@@ -54,9 +57,10 @@
         </dependency>
 
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
+            <version>${junit.version}</version>
         </dependency>
 
         <dependency>
@@ -77,11 +81,11 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>3.0.1</version>
+                <version>${maven.plugin.version}</version>
             </plugin>
         </plugins>
 
-        <finalName>${project.name}-0.0.1</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
     </build>
 
 </project>
