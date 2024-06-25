@@ -20,6 +20,8 @@
         <java.version>11</java.version>
         <postgres.driver.version>42.2.5</postgres.driver.version>
         <junit.version>4.13.2</junit.version>
+        <jackson.jaxrs.json.provider.version>2.11.0
+        </jackson.jaxrs.json.provider.version>
     </properties>
     <dependencies>
         <dependency>
@@ -67,6 +69,12 @@
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson.jaxrs.json.provider.version}</version>
         </dependency>
     </dependencies>
 
