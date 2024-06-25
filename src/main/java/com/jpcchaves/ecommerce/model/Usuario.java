@@ -33,7 +33,7 @@ public class Usuario implements UserDetails, Serializable {
   @Temporal(TemporalType.DATE)
   private Date dataAtualSenha;
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "usuarios_acesso",
       uniqueConstraints =
