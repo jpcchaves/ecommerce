@@ -1,28 +1,38 @@
 package com.jpcchaves.ecommerce.controller;
 
-import com.jpcchaves.ecommerce.model.Acesso;
-import com.jpcchaves.ecommerce.service.AcessoService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.jpcchaves.ecommerce.model.*;
+import com.jpcchaves.ecommerce.repository.*;
+import com.jpcchaves.ecommerce.service.*;
+import org.springframework.http.*;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/acessos")
 public class AcessoController {
 
   private final AcessoService acessoService;
+  private final AcessoRepository acessoRepository;
 
-  public AcessoController(AcessoService acessoService) {
+  public AcessoController(
+      AcessoService acessoService,
+      AcessoRepository acessoRepository
+  ) {
     this.acessoService = acessoService;
+    this.acessoRepository = acessoRepository;
   }
 
   @PostMapping
   public ResponseEntity<Acesso> salvarAcesso(@RequestBody Acesso acesso) {
 
     return new ResponseEntity<>(acessoService.salvar(acesso),
-        HttpStatus.CREATED);
+                                HttpStatus.CREATED);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteAcesso(@PathVariable(name = "id") Long id) {
+
+    acessoRepository.deleteById(id);
+
+    return new ResponseEntity<>("Acesso deletado com sucesso!", HttpStatus.NO_CONTENT);
   }
 }
