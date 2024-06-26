@@ -28,6 +28,14 @@ public class AcessoController {
                                 HttpStatus.CREATED);
   }
 
+  @GetMapping("/{id}")
+  public ResponseEntity<Acesso> getById(@PathVariable(name = "id") Long id) {
+    Acesso acesso = acessoRepository.findById(id)
+                                    .orElse(null);
+
+    return ResponseEntity.ok(acesso);
+  }
+
   @DeleteMapping("/{id}")
   public ResponseEntity<?> deleteAcesso(@PathVariable(name = "id") Long id) {
 
