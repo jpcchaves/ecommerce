@@ -1,5 +1,6 @@
 package com.jpcchaves.ecommerce.controller;
 
+import com.fasterxml.jackson.core.type.*;
 import com.fasterxml.jackson.databind.*;
 import com.jpcchaves.ecommerce.model.*;
 import com.jpcchaves.ecommerce.repository.*;
@@ -12,6 +13,8 @@ import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
 import org.springframework.test.web.servlet.setup.*;
 import org.springframework.web.context.*;
+
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -84,7 +87,7 @@ public class AcessoControllerTest {
   }
 
   @Test
-  public void testRestApiGetbyId() throws Exception {
+  public void testRestApiGetById() throws Exception {
 
     DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.applicationContext);
 
@@ -118,5 +121,43 @@ public class AcessoControllerTest {
     assertNotNull(returnObject);
 
     assertEquals(HttpStatus.OK.value(), statusCode);
+  }
+
+  @Test
+  public void testRestApiGetByDesc() throws Exception {
+
+    DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.applicationContext);
+
+    MockMvc mockMvc = builder.build();
+
+    Acesso acesso = new Acesso();
+
+    acesso.setDescricao("ROLE_TEST_OBTER_LIST");
+
+    acesso = acessoRepository.save(acesso);
+
+    ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
+                                                      .request(HttpMethod.GET, "/api/v1/acessos/?desc=OBTER_LIST")
+                                                      .accept(MediaType.APPLICATION_JSON)
+                                                      .contentType(MediaType.APPLICATION_JSON));
+
+    List<Acesso> returnObject = objectMapper
+        .readValue(resultActions.andReturn()
+                                .getResponse()
+                                .getContentAsString(), new TypeReference<>() {
+        });
+
+    int statusCode = resultActions.andReturn()
+                                  .getResponse()
+                                  .getStatus();
+
+    assertEquals(1, returnObject.size());
+
+    assertEquals(acesso.getDescricao(), returnObject.get(0)
+                                                    .getDescricao());
+    
+    assertEquals(HttpStatus.OK.value(), statusCode);
+
+    acessoRepository.deleteById(acesso.getId());
   }
 }
