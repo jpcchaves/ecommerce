@@ -3,6 +3,7 @@ package com.jpcchaves.ecommerce.controller;
 import com.fasterxml.jackson.databind.*;
 import com.jpcchaves.ecommerce.model.*;
 import com.jpcchaves.ecommerce.repository.*;
+import com.jpcchaves.ecommerce.utils.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
@@ -17,11 +18,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 public class AcessoControllerTest {
 
+  private final ObjectMapper objectMapper = ObjectMapperUtil.getInstance();
   @Autowired
   AcessoRepository acessoRepository;
   @Autowired
   private AcessoController acessoController;
-
   @Autowired
   private WebApplicationContext applicationContext;
 
@@ -36,7 +37,6 @@ public class AcessoControllerTest {
 
     acesso.setDescricao("ROLE_TEST");
 
-    ObjectMapper objectMapper = new ObjectMapper();
 
     ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
                                                       .request(HttpMethod.POST, "/api/v1/acessos")
@@ -81,5 +81,42 @@ public class AcessoControllerTest {
 
 
     assertEquals(HttpStatus.NO_CONTENT.value(), statusCode);
+  }
+
+  @Test
+  public void testRestApiGetbyId() throws Exception {
+
+    DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.applicationContext);
+
+    MockMvc mockMvc = builder.build();
+
+    Acesso acesso = new Acesso();
+
+    acesso.setDescricao("ROLE_TEST_BY_ID");
+
+    acesso = acessoRepository.save(acesso);
+
+    ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders
+                                                      .request(HttpMethod.GET, "/api/v1/acessos/" + acesso.getId())
+                                                      .accept(MediaType.APPLICATION_JSON)
+                                                      .contentType(MediaType.APPLICATION_JSON));
+
+    Acesso returnObject = objectMapper
+        .reader()
+        .forType(Acesso.class)
+        .readValue(resultActions.andReturn()
+                                .getResponse()
+                                .getContentAsString());
+
+    int statusCode = resultActions.andReturn()
+                                  .getResponse()
+                                  .getStatus();
+
+
+    assertEquals(acesso.getDescricao(), returnObject.getDescricao());
+
+    assertNotNull(returnObject);
+
+    assertEquals(HttpStatus.OK.value(), statusCode);
   }
 }
