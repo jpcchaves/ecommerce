@@ -6,6 +6,8 @@ import com.jpcchaves.ecommerce.service.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.*;
+
 @RestController
 @RequestMapping("/api/v1/acessos")
 public class AcessoController {
@@ -26,6 +28,11 @@ public class AcessoController {
 
     return new ResponseEntity<>(acessoService.salvar(acesso),
                                 HttpStatus.CREATED);
+  }
+
+  @GetMapping
+  public ResponseEntity<List<Acesso>> findByDescricao(@RequestParam(name = "desc") String descricao) {
+    return ResponseEntity.ok(acessoRepository.findAcessoByDescricao(descricao));
   }
 
   @GetMapping("/{id}")
