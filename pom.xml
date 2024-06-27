@@ -22,6 +22,7 @@
         <junit.version>4.13.2</junit.version>
         <jackson.jaxrs.json.provider.version>2.11.0
         </jackson.jaxrs.json.provider.version>
+        <flyway.version>7.3.1</flyway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -75,6 +76,12 @@
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
             <artifactId>jackson-jaxrs-json-provider</artifactId>
             <version>${jackson.jaxrs.json.provider.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
         </dependency>
     </dependencies>
 
