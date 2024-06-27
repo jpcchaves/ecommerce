@@ -1,18 +1,15 @@
 package com.jpcchaves.ecommerce.service.impl;
 
-import com.jpcchaves.ecommerce.model.PessoaFisica;
-import com.jpcchaves.ecommerce.model.PessoaJuridica;
-import com.jpcchaves.ecommerce.repository.PessoaRepository;
-import java.util.Date;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.jpcchaves.ecommerce.model.*;
+import com.jpcchaves.ecommerce.repository.*;
+import org.junit.jupiter.api.*;
+import org.mockito.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.context.annotation.*;
 
+import java.util.*;
+
+@Profile("test")
 @SpringBootTest
 class PessoaServiceImplTest {
 
@@ -38,7 +35,7 @@ class PessoaServiceImplTest {
   @Test
   void whenCreateThenReturnSuccess() {
     Mockito.when(pessoaRepository.save(pessoaFisica))
-        .thenReturn(pessoaFisica);
+           .thenReturn(pessoaFisica);
 
     String message = pessoaService.create(pessoaJuridica);
 
