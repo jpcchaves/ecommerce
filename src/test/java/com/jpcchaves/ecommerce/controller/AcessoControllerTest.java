@@ -8,6 +8,7 @@ import com.jpcchaves.ecommerce.utils.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.boot.test.context.*;
+import org.springframework.context.annotation.*;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.*;
 import org.springframework.test.web.servlet.request.*;
@@ -18,6 +19,7 @@ import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Profile("test")
 @SpringBootTest
 public class AcessoControllerTest {
 
@@ -155,7 +157,7 @@ public class AcessoControllerTest {
 
     assertEquals(acesso.getDescricao(), returnObject.get(0)
                                                     .getDescricao());
-    
+
     assertEquals(HttpStatus.OK.value(), statusCode);
 
     acessoRepository.deleteById(acesso.getId());
