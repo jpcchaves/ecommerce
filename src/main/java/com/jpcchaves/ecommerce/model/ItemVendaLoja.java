@@ -19,6 +19,9 @@ public class ItemVendaLoja implements Serializable {
       generator = "seq_item_venda_loja")
   private Long id;
 
+  @Column(nullable = false)
+  private Double quantidade;
+
   @ManyToOne
   @JoinColumn(
       name = "produto_id",
@@ -43,6 +46,14 @@ public class ItemVendaLoja implements Serializable {
 
   public void setId(Long id) {
     this.id = id;
+  }
+
+  public Double getQuantidade() {
+    return quantidade;
+  }
+
+  public void setQuantidade(Double quantidade) {
+    this.quantidade = quantidade;
   }
 
   public Produto getProduto() {

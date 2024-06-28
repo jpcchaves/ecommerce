@@ -1,9 +1,11 @@
 package com.jpcchaves.ecommerce.model;
 
-import java.io.Serializable;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.*;
+import org.springframework.security.core.*;
+
 import javax.persistence.*;
-import org.springframework.security.core.GrantedAuthority;
+import java.io.*;
+import java.util.*;
 
 @Entity
 @Table(name = "acesso")
@@ -20,18 +22,21 @@ public class Acesso implements GrantedAuthority,
   @Column(nullable = false)
   private String descricao;
 
-  @Override
-  public String getAuthority() {
-    return this.descricao;
-  }
-
   public Acesso() {
   }
 
-  public Acesso(Long id,
-                String descricao) {
+  public Acesso(
+      Long id,
+      String descricao
+  ) {
     this.id = id;
     this.descricao = descricao;
+  }
+
+  @JsonIgnore
+  @Override
+  public String getAuthority() {
+    return this.descricao;
   }
 
   public Long getId() {

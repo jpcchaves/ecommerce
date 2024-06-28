@@ -6,27 +6,16 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.ConstraintMode;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ForeignKey;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
 @Table(name = "usuario")
-@SequenceGenerator(name = "seq_usuario", sequenceName = "seq_usuario", allocationSize = 1)
+@SequenceGenerator(
+    name = "seq_usuario",
+    sequenceName = "seq_usuario",
+    allocationSize = 1)
 public class Usuario implements UserDetails, Serializable {
   private static final long serialVersionUID = 763879519639153490L;
 
@@ -34,13 +23,17 @@ public class Usuario implements UserDetails, Serializable {
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_usuario")
   private Long id;
 
+  @Column(nullable = false)
   private String login;
+
+  @Column(nullable = false)
   private String senha;
 
+  @Column(nullable = false)
   @Temporal(TemporalType.DATE)
   private Date dataAtualSenha;
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(
       name = "usuarios_acesso",
       uniqueConstraints =
@@ -52,28 +45,57 @@ public class Usuario implements UserDetails, Serializable {
               name = "usuario_id",
               referencedColumnName = "id",
               table = "usuario",
-              foreignKey = @ForeignKey(name = "usuario_fk", value = ConstraintMode.CONSTRAINT)),
+              foreignKey =
+                  @ForeignKey(
+                      name = "usuario_fk",
+                      value = ConstraintMode.CONSTRAINT)),
       inverseJoinColumns =
           @JoinColumn(
               name = "acesso_id",
               referencedColumnName = "id",
               table = "acesso",
-              foreignKey = @ForeignKey(name = "acesso_fk", value = ConstraintMode.CONSTRAINT)))
+              foreignKey =
+                  @ForeignKey(
+                      name = "acesso_fk",
+                      value = ConstraintMode.CONSTRAINT)))
   private List<Acesso> acessos = new ArrayList<>();
+
+  @ManyToOne(targetEntity = Pessoa.class)
+  @JoinColumn(
+      name = "pessoa_id",
+      nullable = false,
+      foreignKey =
+          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+  private Pessoa pessoa;
 
   public Usuario() {}
 
-  public Usuario(Long id, String login, String senha, Date dataAtualSenha, List<Acesso> acessos) {
+  public Usuario(
+      Long id,
+      String login,
+      String senha,
+      Date dataAtualSenha,
+      List<Acesso> acessos,
+      Pessoa pessoa) {
     this.id = id;
     this.login = login;
     this.senha = senha;
     this.dataAtualSenha = dataAtualSenha;
     this.acessos = acessos;
+    this.pessoa = pessoa;
   }
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return this.acessos;
+  }
+
+  public Pessoa getPessoa() {
+    return pessoa;
+  }
+
+  public void setPessoa(Pessoa pessoa) {
+    this.pessoa = pessoa;
   }
 
   @Override

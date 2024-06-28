@@ -2,12 +2,7 @@ package com.jpcchaves.ecommerce.model;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "forma_pagamento")
@@ -19,9 +14,12 @@ public class FormaPagamento implements Serializable {
   private static final long serialVersionUID = 2592810559106621945L;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_forma_pagamento")
+  @GeneratedValue(
+      strategy = GenerationType.SEQUENCE,
+      generator = "seq_forma_pagamento")
   private Long id;
 
+  @Column(nullable = false)
   private String descricao;
 
   public FormaPagamento() {}
@@ -49,7 +47,13 @@ public class FormaPagamento implements Serializable {
 
   @Override
   public String toString() {
-    return "FormaPagamento{" + "id=" + id + ", descricao='" + descricao + '\'' + '}';
+    return "FormaPagamento{"
+        + "id="
+        + id
+        + ", descricao='"
+        + descricao
+        + '\''
+        + '}';
   }
 
   @Override

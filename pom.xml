@@ -15,8 +15,14 @@
     <name>ecommerce</name>
     <description>Demo project for an Ecommerce API</description>
     <properties>
+        <project.version>0.0.1</project.version>
+        <maven.plugin.version>3.0.1</maven.plugin.version>
         <java.version>11</java.version>
         <postgres.driver.version>42.2.5</postgres.driver.version>
+        <junit.version>4.13.2</junit.version>
+        <jackson.jaxrs.json.provider.version>2.11.0
+        </jackson.jaxrs.json.provider.version>
+        <flyway.version>7.3.1</flyway.version>
     </properties>
     <dependencies>
         <dependency>
@@ -52,6 +58,31 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.jaxrs</groupId>
+            <artifactId>jackson-jaxrs-json-provider</artifactId>
+            <version>${jackson.jaxrs.json.provider.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+            <version>${flyway.version}</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -61,9 +92,15 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${project.parent.version}</version>
             </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>${maven.plugin.version}</version>
+            </plugin>
         </plugins>
 
-        <finalName>${project.name}-0.0.1</finalName>
+        <finalName>${project.name}-${project.version}</finalName>
     </build>
 
 </project>
