@@ -722,14 +722,6 @@ COPY public.endereco (id, bairro, cep, cidade, complemento, numero, rua_logradou
 \.
 
 
---
--- Data for Name: flyway_schema_history; Type: TABLE DATA; Schema: public; Owner: postgres
---
-
-COPY public.flyway_schema_history (installed_rank, version, description, type, script, checksum, installed_by, installed_on, execution_time, success) FROM stdin;
-1	1	<< Flyway Baseline >>	BASELINE	<< Flyway Baseline >>	\N	null	2024-06-27 15:38:36.559139	0	t
-\.
-
 
 --
 -- Data for Name: forma_pagamento; Type: TABLE DATA; Schema: public; Owner: postgres
@@ -1040,13 +1032,6 @@ ALTER TABLE ONLY public.endereco
     ADD CONSTRAINT endereco_pkey PRIMARY KEY (id);
 
 
---
--- Name: flyway_schema_history_pk; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.flyway_schema_history
-    ADD CONSTRAINT flyway_schema_history_pk PRIMARY KEY (installed_rank);
-
 
 --
 -- Name: forma_pagamento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -1166,13 +1151,6 @@ ALTER TABLE ONLY public.usuario
 
 ALTER TABLE ONLY public.venda_compra_loja_virtual
     ADD CONSTRAINT venda_compra_loja_virtual_pkey PRIMARY KEY (id);
-
-
---
--- Name: flyway_schema_history_s_idx; Type: INDEX; Schema: public; Owner: postgres
---
-
-CREATE INDEX flyway_schema_history_s_idx ON public.flyway_schema_history USING btree (success);
 
 
 --
