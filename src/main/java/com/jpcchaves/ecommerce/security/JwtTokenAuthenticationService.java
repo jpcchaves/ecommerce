@@ -81,6 +81,9 @@ public class JwtTokenAuthenticationService {
     } catch (SignatureException exception) {
       response.getWriter()
               .write("Invalid Token!");
+    } catch (ExpiredJwtException exception) {
+      response.getWriter()
+              .write("Expired Token!");
     } finally {
       configureCors(response);
     }
