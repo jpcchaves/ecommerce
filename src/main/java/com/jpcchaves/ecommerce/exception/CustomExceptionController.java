@@ -2,6 +2,7 @@ package com.jpcchaves.ecommerce.exception;
 
 import com.jpcchaves.ecommerce.model.dto.*;
 import org.hibernate.exception.*;
+import org.slf4j.*;
 import org.springframework.dao.*;
 import org.springframework.http.*;
 import org.springframework.validation.*;
@@ -16,6 +17,8 @@ import java.util.*;
 @RestControllerAdvice
 public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
+  private static final Logger _logger = LoggerFactory.getLogger(this.getClass());
+
   @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
   @Override
   protected ResponseEntity<Object> handleExceptionInternal(
@@ -25,6 +28,9 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
       HttpStatus status,
       WebRequest request
   ) {
+
+    _logger.error(ex.getMessage());
+    _logger.error(Arrays.toString(ex.getStackTrace()));
 
     ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
 
@@ -54,6 +60,8 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
   // Database exceptions
   @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class,})
   protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
+
+    _logger.error(ex.getMessage());
 
     ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
 
