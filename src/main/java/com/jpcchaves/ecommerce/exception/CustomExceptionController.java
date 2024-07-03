@@ -89,4 +89,15 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ExceptionResponseDTO> handleEntityNotFoundException(EntityNotFoundException ex) {
+
+    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
+
+    exceptionResponseDTO.setError(ex.getMessage());
+    exceptionResponseDTO.setCode(HttpStatus.NOT_FOUND.toString());
+
+    return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.NOT_FOUND);
+  }
 }
