@@ -6,6 +6,7 @@ import com.jpcchaves.ecommerce.service.*;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.*;
 import java.util.*;
 
 @RestController
@@ -37,8 +38,9 @@ public class AcessoController {
 
   @GetMapping("/{id}")
   public ResponseEntity<Acesso> getById(@PathVariable(name = "id") Long id) {
-    Acesso acesso = acessoRepository.findById(id)
-                                    .orElse(null);
+    Acesso acesso = acessoRepository
+        .findById(id)
+        .orElseThrow(() -> new EntityNotFoundException("Acesso not found with the given id"));
 
     return ResponseEntity.ok(acesso);
   }
