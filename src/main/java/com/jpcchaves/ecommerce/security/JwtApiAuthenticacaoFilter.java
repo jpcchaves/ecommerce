@@ -1,17 +1,17 @@
 package com.jpcchaves.ecommerce.security;
 
-import java.io.IOException;
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.filter.GenericFilterBean;
+import org.slf4j.*;
+import org.springframework.security.core.*;
+import org.springframework.security.core.context.*;
+import org.springframework.web.filter.*;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.*;
+import java.util.*;
 
 public class JwtApiAuthenticacaoFilter extends GenericFilterBean {
+  private static final Logger _logger = LoggerFactory.getLogger(JwtApiAuthenticacaoFilter.class);
 
   @Override
   public void doFilter(
@@ -20,12 +20,24 @@ public class JwtApiAuthenticacaoFilter extends GenericFilterBean {
       FilterChain filterChain
   ) throws IOException, ServletException {
 
-    Authentication authentication = new JwtTokenAuthenticationService().getAuthentication(
-        (HttpServletRequest) servletRequest,
-        (HttpServletResponse) servletResponse);
 
-    SecurityContextHolder.getContext().setAuthentication(authentication);
+    try {
 
-    filterChain.doFilter(servletRequest, servletResponse);
+      Authentication authentication = new JwtTokenAuthenticationService().getAuthentication(
+          (HttpServletRequest) servletRequest,
+          (HttpServletResponse) servletResponse);
+
+      SecurityContextHolder.getContext()
+                           .setAuthentication(authentication);
+
+      filterChain.doFilter(servletRequest, servletResponse);
+
+    } catch (Exception ex) {
+
+      _logger.error(Arrays.toString(ex.getStackTrace()));
+      servletResponse.getWriter()
+                     .write("An unexpected error occurred! Contact the server admin: " + ex.getMessage());
+    }
+
   }
 }
