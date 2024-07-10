@@ -1,9 +1,12 @@
 package com.jpcchaves.ecommerce.service.impl;
 
-import com.jpcchaves.ecommerce.model.Acesso;
-import com.jpcchaves.ecommerce.repository.AcessoRepository;
-import com.jpcchaves.ecommerce.service.AcessoService;
-import org.springframework.stereotype.Service;
+import com.jpcchaves.ecommerce.model.*;
+import com.jpcchaves.ecommerce.repository.*;
+import com.jpcchaves.ecommerce.service.*;
+import org.springframework.data.rest.webmvc.*;
+import org.springframework.stereotype.*;
+
+import java.util.*;
 
 @Service
 public class AcessoServiceImpl implements AcessoService {
@@ -16,6 +19,25 @@ public class AcessoServiceImpl implements AcessoService {
 
   @Override
   public Acesso salvar(Acesso acesso) {
+
+    if (!findByDesc(acesso.getDescricao()).isEmpty()) {
+
+      throw new IllegalArgumentException("Ja existe um acesso com a descricao informada: " + acesso.getDescricao());
+    }
+
     return acessoRepository.save(acesso);
+  }
+
+  @Override
+  public Acesso findById(Long acessoId) {
+
+    return acessoRepository.findById(acessoId)
+                           .orElseThrow(() -> new ResourceNotFoundException("Acesso not found with the given id"));
+  }
+
+  @Override
+  public List<Acesso> findByDesc(String desc) {
+    
+    return acessoRepository.findAcessoByDescricao(desc);
   }
 }
