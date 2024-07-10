@@ -100,4 +100,15 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
     return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.NOT_FOUND);
   }
+
+  @ExceptionHandler(DuplicateResourceException.class)
+  public ResponseEntity<ExceptionResponseDTO> handleDuplicateResourceException(DuplicateResourceException ex) {
+
+    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
+
+    exceptionResponseDTO.setError(ex.getMessage());
+    exceptionResponseDTO.setCode(HttpStatus.BAD_REQUEST.toString());
+
+    return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.BAD_REQUEST);
+  }
 }
