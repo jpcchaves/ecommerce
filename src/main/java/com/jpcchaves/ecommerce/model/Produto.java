@@ -1,196 +1,207 @@
 package com.jpcchaves.ecommerce.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 @Entity
 @Table(name = "produto")
 @SequenceGenerator(
-    name = "seq_produto",
-    sequenceName = "seq_produto",
-    allocationSize = 1)
+        name = "seq_produto",
+        sequenceName = "seq_produto",
+        allocationSize = 1)
 public class Produto implements Serializable {
-  private static final long serialVersionUID = 4382833977102175437L;
+    private static final long serialVersionUID = 4382833977102175437L;
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
-  private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_produto")
+    private Long id;
 
-  @Column(nullable = false)
-  private String tipoUnidade;
+    @Column(nullable = false)
+    private String tipoUnidade;
 
-  @Column(nullable = false)
-  private String nome;
+    @Column(nullable = false)
+    private String nome;
 
-  @Column(nullable = false)
-  private Boolean ativo = Boolean.TRUE;
+    @Column(nullable = false)
+    private Boolean ativo = Boolean.TRUE;
 
-  @Column(columnDefinition = "TEXT", nullable = false)
-  private String descricao;
+    @Column(columnDefinition = "TEXT", nullable = false)
+    private String descricao;
 
-  // Todo: nota item nota produto - Associacao
+    // Todo: nota item nota produto - Associacao
 
-  @Column(nullable = false)
-  private Double peso;
+    @Column(nullable = false)
+    private Double peso;
 
-  @Column(nullable = false)
-  private Double largura;
+    @Column(nullable = false)
+    private Double largura;
 
-  @Column(nullable = false)
-  private Double altura;
+    @Column(nullable = false)
+    private Double altura;
 
-  @Column(nullable = false)
-  private Double profundidade;
+    @Column(nullable = false)
+    private Double profundidade;
 
-  @Column(nullable = false)
-  private BigDecimal valorVenda = BigDecimal.ZERO;
+    @Column(nullable = false)
+    private BigDecimal valorVenda = BigDecimal.ZERO;
 
-  @Column(nullable = false)
-  private Integer qtdEstoque = 0;
+    @Column(nullable = false)
+    private Integer qtdEstoque = 0;
 
-  private Integer qtdAlertaEstoque = 0;
-  private String linkYoutube;
-  private Boolean alertarQtdeEstoque = Boolean.FALSE;
-  private Integer qtdClique = 0;
+    private Integer qtdAlertaEstoque = 0;
+    private String linkYoutube;
+    private Boolean alertarQtdeEstoque = Boolean.FALSE;
 
-  public Long getId() {
-    return id;
-  }
+    private Integer qtdClique = 0;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "empresa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
-  public String getTipoUnidade() {
-    return tipoUnidade;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public void setTipoUnidade(String tipoUnidade) {
-    this.tipoUnidade = tipoUnidade;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public String getNome() {
-    return nome;
-  }
+    public String getTipoUnidade() {
+        return tipoUnidade;
+    }
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
+    public void setTipoUnidade(String tipoUnidade) {
+        this.tipoUnidade = tipoUnidade;
+    }
 
-  public Boolean getAtivo() {
-    return ativo;
-  }
+    public String getNome() {
+        return nome;
+    }
 
-  public void setAtivo(Boolean ativo) {
-    this.ativo = ativo;
-  }
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-  public String getDescricao() {
-    return descricao;
-  }
+    public Boolean getAtivo() {
+        return ativo;
+    }
 
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
-  }
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
 
-  public Double getPeso() {
-    return peso;
-  }
+    public String getDescricao() {
+        return descricao;
+    }
 
-  public void setPeso(Double peso) {
-    this.peso = peso;
-  }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-  public Double getLargura() {
-    return largura;
-  }
+    public Double getPeso() {
+        return peso;
+    }
 
-  public void setLargura(Double largura) {
-    this.largura = largura;
-  }
+    public void setPeso(Double peso) {
+        this.peso = peso;
+    }
 
-  public Double getAltura() {
-    return altura;
-  }
+    public Double getLargura() {
+        return largura;
+    }
 
-  public void setAltura(Double altura) {
-    this.altura = altura;
-  }
+    public void setLargura(Double largura) {
+        this.largura = largura;
+    }
 
-  public Double getProfundidade() {
-    return profundidade;
-  }
+    public Double getAltura() {
+        return altura;
+    }
 
-  public void setProfundidade(Double profundidade) {
-    this.profundidade = profundidade;
-  }
+    public void setAltura(Double altura) {
+        this.altura = altura;
+    }
 
-  public BigDecimal getValorVenda() {
-    return valorVenda;
-  }
+    public Double getProfundidade() {
+        return profundidade;
+    }
 
-  public void setValorVenda(BigDecimal valorVenda) {
-    this.valorVenda = valorVenda;
-  }
+    public void setProfundidade(Double profundidade) {
+        this.profundidade = profundidade;
+    }
 
-  public Integer getQtdEstoque() {
-    return qtdEstoque;
-  }
+    public BigDecimal getValorVenda() {
+        return valorVenda;
+    }
 
-  public void setQtdEstoque(Integer qtdEstoque) {
-    this.qtdEstoque = qtdEstoque;
-  }
+    public void setValorVenda(BigDecimal valorVenda) {
+        this.valorVenda = valorVenda;
+    }
 
-  public Integer getQtdAlertaEstoque() {
-    return qtdAlertaEstoque;
-  }
+    public Integer getQtdEstoque() {
+        return qtdEstoque;
+    }
 
-  public void setQtdAlertaEstoque(Integer qtdAlertaEstoque) {
-    this.qtdAlertaEstoque = qtdAlertaEstoque;
-  }
+    public void setQtdEstoque(Integer qtdEstoque) {
+        this.qtdEstoque = qtdEstoque;
+    }
 
-  public String getLinkYoutube() {
-    return linkYoutube;
-  }
+    public Integer getQtdAlertaEstoque() {
+        return qtdAlertaEstoque;
+    }
 
-  public void setLinkYoutube(String linkYoutube) {
-    this.linkYoutube = linkYoutube;
-  }
+    public void setQtdAlertaEstoque(Integer qtdAlertaEstoque) {
+        this.qtdAlertaEstoque = qtdAlertaEstoque;
+    }
 
-  public Boolean getAlertarQtdeEstoque() {
-    return alertarQtdeEstoque;
-  }
+    public String getLinkYoutube() {
+        return linkYoutube;
+    }
 
-  public void setAlertarQtdeEstoque(Boolean alertarQtdeEstoque) {
-    this.alertarQtdeEstoque = alertarQtdeEstoque;
-  }
+    public void setLinkYoutube(String linkYoutube) {
+        this.linkYoutube = linkYoutube;
+    }
 
-  public Integer getQtdClique() {
-    return qtdClique;
-  }
+    public Boolean getAlertarQtdeEstoque() {
+        return alertarQtdeEstoque;
+    }
 
-  public void setQtdClique(Integer qtdClique) {
-    this.qtdClique = qtdClique;
-  }
+    public void setAlertarQtdeEstoque(Boolean alertarQtdeEstoque) {
+        this.alertarQtdeEstoque = alertarQtdeEstoque;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    Produto produto = (Produto) o;
-    return Objects.equals(id, produto.id);
-  }
+    public Integer getQtdClique() {
+        return qtdClique;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    public void setQtdClique(Integer qtdClique) {
+        this.qtdClique = qtdClique;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Produto produto = (Produto) o;
+        return Objects.equals(id, produto.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
 }

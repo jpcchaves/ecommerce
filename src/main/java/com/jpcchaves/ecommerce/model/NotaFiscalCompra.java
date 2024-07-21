@@ -1,155 +1,171 @@
 package com.jpcchaves.ecommerce.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "nota_fiscal_compra")
 @SequenceGenerator(
-    name = "seq_nota_fiscal_compra",
-    sequenceName = "seq_nota_fiscal_compra",
-    allocationSize = 1)
+        name = "seq_nota_fiscal_compra",
+        sequenceName = "seq_nota_fiscal_compra",
+        allocationSize = 1)
 public class NotaFiscalCompra implements Serializable {
 
-  private static final long serialVersionUID = -1163633109454200315L;
+    private static final long serialVersionUID = -1163633109454200315L;
 
-  @Id
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "seq_nota_fiscal_compra")
-  private Long id;
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "seq_nota_fiscal_compra")
+    private Long id;
 
-  @Column(nullable = false)
-  private String numeroNota;
+    @Column(nullable = false)
+    private String numeroNota;
 
-  @Column(nullable = false)
-  private String serieNota;
+    @Column(nullable = false)
+    private String serieNota;
 
-  private String descricaoObs;
+    private String descricaoObs;
 
-  @Column(nullable = false)
-  private BigDecimal valorTotal;
+    @Column(nullable = false)
+    private BigDecimal valorTotal;
 
-  private BigDecimal valorDesconto;
+    private BigDecimal valorDesconto;
 
-  @Column(nullable = false)
-  private BigDecimal valorIcms;
+    @Column(nullable = false)
+    private BigDecimal valorIcms;
 
-  @Column(nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date dataCompra;
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date dataCompra;
 
-  @ManyToOne(targetEntity = Pessoa.class)
-  @JoinColumn(
-      name = "pessoa_id",
-      nullable = false,
-      foreignKey =
-          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-  private Pessoa pessoa;
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "pessoa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    private Pessoa pessoa;
 
-  @ManyToOne
-  @JoinColumn(
-      name = "conta_pagar_id",
-      nullable = false,
-      foreignKey =
-          @ForeignKey(
-              value = ConstraintMode.CONSTRAINT,
-              name = "conta_pagar_fk"))
-  private ContaPagar contaPagar;
+    @ManyToOne
+    @JoinColumn(
+            name = "conta_pagar_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(
+                    value = ConstraintMode.CONSTRAINT,
+                    name = "conta_pagar_fk"))
+    private ContaPagar contaPagar;
 
-  public Long getId() {
-    return id;
-  }
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "empresa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public String getNumeroNota() {
-    return numeroNota;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setNumeroNota(String numeroNota) {
-    this.numeroNota = numeroNota;
-  }
+    public String getNumeroNota() {
+        return numeroNota;
+    }
 
-  public String getSerieNota() {
-    return serieNota;
-  }
+    public void setNumeroNota(String numeroNota) {
+        this.numeroNota = numeroNota;
+    }
 
-  public void setSerieNota(String serieNota) {
-    this.serieNota = serieNota;
-  }
+    public String getSerieNota() {
+        return serieNota;
+    }
 
-  public String getDescricaoObs() {
-    return descricaoObs;
-  }
+    public void setSerieNota(String serieNota) {
+        this.serieNota = serieNota;
+    }
 
-  public void setDescricaoObs(String descricaoObs) {
-    this.descricaoObs = descricaoObs;
-  }
+    public String getDescricaoObs() {
+        return descricaoObs;
+    }
 
-  public BigDecimal getValorTotal() {
-    return valorTotal;
-  }
+    public void setDescricaoObs(String descricaoObs) {
+        this.descricaoObs = descricaoObs;
+    }
 
-  public void setValorTotal(BigDecimal valorTotal) {
-    this.valorTotal = valorTotal;
-  }
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
 
-  public BigDecimal getValorDesconto() {
-    return valorDesconto;
-  }
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
-  public void setValorDesconto(BigDecimal valorDesconto) {
-    this.valorDesconto = valorDesconto;
-  }
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
 
-  public BigDecimal getValorIcms() {
-    return valorIcms;
-  }
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
 
-  public void setValorIcms(BigDecimal valorIcms) {
-    this.valorIcms = valorIcms;
-  }
+    public BigDecimal getValorIcms() {
+        return valorIcms;
+    }
 
-  public Date getDataCompra() {
-    return dataCompra;
-  }
+    public void setValorIcms(BigDecimal valorIcms) {
+        this.valorIcms = valorIcms;
+    }
 
-  public void setDataCompra(Date dataCompra) {
-    this.dataCompra = dataCompra;
-  }
+    public Date getDataCompra() {
+        return dataCompra;
+    }
 
-  public Pessoa getPessoa() {
-    return pessoa;
-  }
+    public void setDataCompra(Date dataCompra) {
+        this.dataCompra = dataCompra;
+    }
 
-  public void setPessoa(Pessoa pessoa) {
-    this.pessoa = pessoa;
-  }
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 
-  public ContaPagar getContaPagar() {
-    return contaPagar;
-  }
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
-  public void setContaPagar(ContaPagar contaPagar) {
-    this.contaPagar = contaPagar;
-  }
+    public ContaPagar getContaPagar() {
+        return contaPagar;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    NotaFiscalCompra that = (NotaFiscalCompra) o;
-    return Objects.equals(id, that.id);
-  }
+    public void setContaPagar(ContaPagar contaPagar) {
+        this.contaPagar = contaPagar;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        NotaFiscalCompra that = (NotaFiscalCompra) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
 }

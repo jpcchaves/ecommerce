@@ -1,7 +1,7 @@
 package com.jpcchaves.ecommerce.model;
 
 import javax.persistence.*;
-import java.io.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
@@ -16,6 +16,14 @@ public class MarcaProduto implements Serializable {
 
     @Column(name = "nome_desc", nullable = false)
     private String nomeDesc;
+
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "empresa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
     public Long getId() {
         return id;
@@ -36,9 +44,9 @@ public class MarcaProduto implements Serializable {
     @Override
     public String toString() {
         return "MarcaProduto{" +
-            "id=" + id +
-            ", nomeDesc='" + nomeDesc + '\'' +
-            '}';
+                "id=" + id +
+                ", nomeDesc='" + nomeDesc + '\'' +
+                '}';
     }
 
     @Override
@@ -52,5 +60,13 @@ public class MarcaProduto implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
     }
 }

@@ -1,96 +1,112 @@
 package com.jpcchaves.ecommerce.model;
 
-import java.io.*;
-import java.util.*;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.Objects;
 
 @Entity
 @Table(name = "avaliacao_produto")
 @SequenceGenerator(
-    name = "seq_avaliacao_produto",
-    sequenceName = "seq_avaliacao_produto",
-    allocationSize = 1)
+        name = "seq_avaliacao_produto",
+        sequenceName = "seq_avaliacao_produto",
+        allocationSize = 1)
 public class AvaliacaoProduto implements Serializable {
-  private static final long serialVersionUID = 1052990720486506029L;
+    private static final long serialVersionUID = 1052990720486506029L;
 
-  @Id
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "seq_avaliacao_produto")
-  private Long id;
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "seq_avaliacao_produto")
+    private Long id;
 
-  @Column(nullable = false)
-  private Integer nota;
+    @Column(nullable = false)
+    private Integer nota;
 
-  @Column(nullable = false)
-  private String descricao;
+    @Column(nullable = false)
+    private String descricao;
 
-  @ManyToOne(targetEntity = Pessoa.class)
-  @JoinColumn(
-      name = "pessoa_id",
-      nullable = false,
-      foreignKey =
-          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-  private Pessoa pessoa;
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "pessoa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    private Pessoa pessoa;
 
-  @ManyToOne
-  @JoinColumn(
-      name = "produto_id",
-      nullable = false,
-      foreignKey =
-          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
-  private Produto produto;
+    @ManyToOne
+    @JoinColumn(
+            name = "produto_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
+    private Produto produto;
 
-  public Long getId() {
-    return id;
-  }
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "empresa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public Integer getNota() {
-    return nota;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setNota(Integer nota) {
-    this.nota = nota;
-  }
+    public Integer getNota() {
+        return nota;
+    }
 
-  public String getDescricao() {
-    return descricao;
-  }
+    public void setNota(Integer nota) {
+        this.nota = nota;
+    }
 
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
-  }
+    public String getDescricao() {
+        return descricao;
+    }
 
-  public Pessoa getPessoa() {
-    return pessoa;
-  }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-  public void setPessoa(Pessoa pessoa) {
-    this.pessoa = pessoa;
-  }
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 
-  public Produto getProduto() {
-    return produto;
-  }
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
-  public void setProduto(Produto produto) {
-    this.produto = produto;
-  }
+    public Produto getProduto() {
+        return produto;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    AvaliacaoProduto that = (AvaliacaoProduto) o;
-    return Objects.equals(id, that.id);
-  }
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AvaliacaoProduto that = (AvaliacaoProduto) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
 }

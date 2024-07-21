@@ -1,172 +1,190 @@
 package com.jpcchaves.ecommerce.model;
 
 import com.jpcchaves.ecommerce.enums.StatusContaReceber;
+
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Objects;
-import javax.persistence.*;
 
 @Entity
 @Table(name = "conta_receber")
 @SequenceGenerator(
-    name = "seq_conta_receber",
-    sequenceName = "seq_conta_receber",
-    allocationSize = 1)
+        name = "seq_conta_receber",
+        sequenceName = "seq_conta_receber",
+        allocationSize = 1)
 public class ContaReceber implements Serializable {
-  private static final long serialVersionUID = -4014739241814589240L;
+    private static final long serialVersionUID = -4014739241814589240L;
 
-  @Id
-  @GeneratedValue(
-      strategy = GenerationType.SEQUENCE,
-      generator = "seq_conta_receber")
-  private Long id;
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "seq_conta_receber")
+    private Long id;
 
-  @Column(nullable = false)
-  private String descricao;
+    @Column(nullable = false)
+    private String descricao;
 
-  @Column(nullable = false)
-  @Enumerated(EnumType.STRING)
-  private StatusContaReceber status;
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private StatusContaReceber status;
 
-  @Column(nullable = false)
-  @Temporal(TemporalType.DATE)
-  private Date dtVencimento;
+    @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date dtVencimento;
 
-  @Temporal(TemporalType.DATE)
-  private Date dtPagamento;
+    @Temporal(TemporalType.DATE)
+    private Date dtPagamento;
 
-  @Column(nullable = false)
-  private BigDecimal valorTotal;
+    @Column(nullable = false)
+    private BigDecimal valorTotal;
 
-  private BigDecimal valorDesconto;
+    private BigDecimal valorDesconto;
 
-  @ManyToOne(targetEntity = Pessoa.class)
-  @JoinColumn(
-      name = "pessoa_id",
-      nullable = false,
-      foreignKey =
-          @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
-  private Pessoa pessoa;
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "pessoa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
+    private Pessoa pessoa;
 
-  public ContaReceber() {}
+    @ManyToOne(targetEntity = Pessoa.class)
+    @JoinColumn(
+            name = "empresa_id",
+            nullable = false,
+            foreignKey =
+            @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "empresa_fk"))
+    private Pessoa empresa;
 
-  public ContaReceber(
-      Long id,
-      String descricao,
-      StatusContaReceber status,
-      Date dtVencimento,
-      Date dtPagamento,
-      BigDecimal valorTotal,
-      BigDecimal valorDesconto,
-      Pessoa pessoa) {
-    this.id = id;
-    this.descricao = descricao;
-    this.status = status;
-    this.dtVencimento = dtVencimento;
-    this.dtPagamento = dtPagamento;
-    this.valorTotal = valorTotal;
-    this.valorDesconto = valorDesconto;
-    this.pessoa = pessoa;
-  }
+    public ContaReceber() {
+    }
 
-  public Long getId() {
-    return id;
-  }
+    public ContaReceber(
+            Long id,
+            String descricao,
+            StatusContaReceber status,
+            Date dtVencimento,
+            Date dtPagamento,
+            BigDecimal valorTotal,
+            BigDecimal valorDesconto,
+            Pessoa pessoa) {
+        this.id = id;
+        this.descricao = descricao;
+        this.status = status;
+        this.dtVencimento = dtVencimento;
+        this.dtPagamento = dtPagamento;
+        this.valorTotal = valorTotal;
+        this.valorDesconto = valorDesconto;
+        this.pessoa = pessoa;
+    }
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+    public Long getId() {
+        return id;
+    }
 
-  public String getDescricao() {
-    return descricao;
-  }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-  public void setDescricao(String descricao) {
-    this.descricao = descricao;
-  }
+    public String getDescricao() {
+        return descricao;
+    }
 
-  public StatusContaReceber getStatus() {
-    return status;
-  }
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
 
-  public void setStatus(StatusContaReceber status) {
-    this.status = status;
-  }
+    public StatusContaReceber getStatus() {
+        return status;
+    }
 
-  public Date getDtVencimento() {
-    return dtVencimento;
-  }
+    public void setStatus(StatusContaReceber status) {
+        this.status = status;
+    }
 
-  public void setDtVencimento(Date dtVencimento) {
-    this.dtVencimento = dtVencimento;
-  }
+    public Date getDtVencimento() {
+        return dtVencimento;
+    }
 
-  public Date getDtPagamento() {
-    return dtPagamento;
-  }
+    public void setDtVencimento(Date dtVencimento) {
+        this.dtVencimento = dtVencimento;
+    }
 
-  public void setDtPagamento(Date dtPagamento) {
-    this.dtPagamento = dtPagamento;
-  }
+    public Date getDtPagamento() {
+        return dtPagamento;
+    }
 
-  public BigDecimal getValorTotal() {
-    return valorTotal;
-  }
+    public void setDtPagamento(Date dtPagamento) {
+        this.dtPagamento = dtPagamento;
+    }
 
-  public void setValorTotal(BigDecimal valorTotal) {
-    this.valorTotal = valorTotal;
-  }
+    public BigDecimal getValorTotal() {
+        return valorTotal;
+    }
 
-  public BigDecimal getValorDesconto() {
-    return valorDesconto;
-  }
+    public void setValorTotal(BigDecimal valorTotal) {
+        this.valorTotal = valorTotal;
+    }
 
-  public void setValorDesconto(BigDecimal valorDesconto) {
-    this.valorDesconto = valorDesconto;
-  }
+    public BigDecimal getValorDesconto() {
+        return valorDesconto;
+    }
 
-  public Pessoa getPessoa() {
-    return pessoa;
-  }
+    public void setValorDesconto(BigDecimal valorDesconto) {
+        this.valorDesconto = valorDesconto;
+    }
 
-  public void setPessoa(Pessoa pessoa) {
-    this.pessoa = pessoa;
-  }
+    public Pessoa getPessoa() {
+        return pessoa;
+    }
 
-  @Override
-  public String toString() {
-    return "ContaReceber{"
-        + "id="
-        + id
-        + ", descricao='"
-        + descricao
-        + '\''
-        + ", status="
-        + status
-        + ", dtVencimento="
-        + dtVencimento
-        + ", dtPagamento="
-        + dtPagamento
-        + ", valorTotal="
-        + valorTotal
-        + ", valorDesconto="
-        + valorDesconto
-        + ", pessoa="
-        + pessoa
-        + '}';
-  }
+    public void setPessoa(Pessoa pessoa) {
+        this.pessoa = pessoa;
+    }
 
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
-    ContaReceber that = (ContaReceber) o;
-    return Objects.equals(id, that.id);
-  }
+    @Override
+    public String toString() {
+        return "ContaReceber{"
+                + "id="
+                + id
+                + ", descricao='"
+                + descricao
+                + '\''
+                + ", status="
+                + status
+                + ", dtVencimento="
+                + dtVencimento
+                + ", dtPagamento="
+                + dtPagamento
+                + ", valorTotal="
+                + valorTotal
+                + ", valorDesconto="
+                + valorDesconto
+                + ", pessoa="
+                + pessoa
+                + '}';
+    }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(id);
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ContaReceber that = (ContaReceber) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    public Pessoa getEmpresa() {
+        return empresa;
+    }
+
+    public void setEmpresa(Pessoa empresa) {
+        this.empresa = empresa;
+    }
 }
