@@ -1,13 +1,15 @@
 package com.jpcchaves.ecommerce;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.*;
+import org.springframework.boot.test.context.*;
+import org.springframework.context.annotation.*;
 
-@SpringBootTest
+@Profile("test")
+@SpringBootTest(classes = EcommerceApplicationTests.class)
 class EcommerceApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
-
+  @Test
+  void main() {
+    EcommerceApplication.main(new String[]{});
+  }
 }
