@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
+
   @Query(value = "select pj from PessoaJuridica pj where pj.cnpj = ?1")
-  PessoaJuridica existsByCnpj(String CNPJ);
+  PessoaJuridica existsByCnpj(String cnpj);
 }
