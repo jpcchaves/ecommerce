@@ -1,19 +1,26 @@
 package com.jpcchaves.ecommerce.service.impl;
 
-import com.jpcchaves.ecommerce.model.*;
-import com.jpcchaves.ecommerce.repository.*;
-import org.junit.jupiter.api.*;
-import org.mockito.*;
-import org.springframework.boot.test.context.*;
-import org.springframework.context.annotation.*;
+import com.jpcchaves.ecommerce.model.PessoaFisica;
+import com.jpcchaves.ecommerce.model.PessoaJuridica;
+import com.jpcchaves.ecommerce.repository.PessoaRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Profile;
 
-import java.util.*;
+import java.util.Date;
 
 @Profile("test")
 @SpringBootTest
 class PessoaServiceImplTest {
 
-  private static final String PESSOA_CREATE_SUCCESS_MESSAGE = "Pessoa criada com sucesso!";
+  private static final String PESSOA_CREATE_SUCCESS_MESSAGE = "Pessoa criada " +
+      "com sucesso!";
   private static final Long ID_PF = 2L;
   private static final Long ID_PJ = 3L;
 
@@ -37,9 +44,9 @@ class PessoaServiceImplTest {
     Mockito.when(pessoaRepository.save(pessoaFisica))
            .thenReturn(pessoaFisica);
 
-    String message = pessoaService.create(pessoaJuridica);
+    PessoaJuridica pj = pessoaService.salvarPJ(pessoaJuridica);
 
-    Assertions.assertEquals(PESSOA_CREATE_SUCCESS_MESSAGE, message);
+    Assertions.assertNotNull(pj.getId());
   }
 
   private void startPessoas() {

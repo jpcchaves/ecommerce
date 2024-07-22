@@ -1,47 +1,37 @@
 package com.jpcchaves.ecommerce;
 
+import com.jpcchaves.ecommerce.controller.PessoaController;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
-import com.jpcchaves.ecommerce.repository.PessoaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Calendar;
+
 @Profile("test")
 @SpringBootTest
 public class TestePessoaUsuario {
 
-    private PessoaRepository pessoaRepository;
+  @Autowired
+  private PessoaController pessoaController;
 
-    @Autowired
-    public TestePessoaUsuario(
-            PessoaRepository pessoaRepository
-    ) {
-        this.pessoaRepository = pessoaRepository;
-    }
+  @Test
+  public void testCadPessoaJuridica() {
 
-    @Test
-    public void testCadPessoaFisica() {
+    PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
-        PessoaJuridica pessoaJuridica = new PessoaJuridica();
+    pessoaJuridica.setCnpj(String.valueOf(Calendar.getInstance()
+                                                  .getTimeInMillis()));
+    pessoaJuridica.setNome("Teste Teste");
+    pessoaJuridica.setEmail(String.format("tests%s@test.com",
+                                          Calendar.getInstance()
+                                                  .getTimeInMillis()));
+    pessoaJuridica.setTelefone("81999999999");
+    pessoaJuridica.setInscEstadual("81999999999");
+    pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
+    pessoaJuridica.setRazaoSocial("Razao Social");
 
-        pessoaJuridica.setCnpj("09075681499");
-        pessoaJuridica.setNome("Teste Teste");
-        pessoaJuridica.setEmail("test@test.com");
-        pessoaJuridica.setTelefone("81999999999");
-        pessoaJuridica.setInscEstadual("81999999999");
-        pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
-        pessoaJuridica.setRazaoSocial("Razao Social");
-
-        pessoaRepository.save(pessoaJuridica);
-
-//
-//        PessoaFisica pessoaFisica = new PessoaFisica();
-//
-//        pessoaFisica.setCpf("09075681499");
-//        pessoaFisica.setNome("Teste Teste");
-//        pessoaFisica.setEmail("test@test.com");
-//        pessoaFisica.setTelefone("81999999999");
-//        pessoaFisica.setEmpresa(pessoaFisica.getEmpresa());
-    }
+    pessoaController.salvarPJ(pessoaJuridica);
+  }
 }
