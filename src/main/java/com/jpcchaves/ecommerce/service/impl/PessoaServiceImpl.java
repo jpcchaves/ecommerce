@@ -42,18 +42,32 @@ public class PessoaServiceImpl implements PessoaService {
                                         " com o CNPJ informado");
     }
 
-    PessoaJuridica savedPJ = pessoaRepository.save(pessoaJuridica);
 
-    Usuario usuarioPJ = usuarioRepository.findByPessoa(savedPJ.getId(),
-                                                       savedPJ.getEmail());
+    for (int i = 0; i < pessoaJuridica.getEnderecos()
+                                      .size(); i++) {
+
+      pessoaJuridica.getEnderecos()
+                    .get(i)
+                    .setPessoa(pessoaJuridica);
+
+      pessoaJuridica.getEnderecos()
+                    .get(i)
+                    .setEmpresa(pessoaJuridica);
+
+    }
+
+    pessoaJuridica = pessoaRepository.save(pessoaJuridica);
+
+    Usuario usuarioPJ = usuarioRepository.findByPessoa(pessoaJuridica.getId(),
+                                                       pessoaJuridica.getEmail());
 
     if (Objects.isNull(usuarioPJ)) {
 
       usuarioPJ = new Usuario();
 
       usuarioPJ.setDataAtualSenha(new Date());
-      usuarioPJ.setEmpresa(savedPJ);
-      usuarioPJ.setPessoa(savedPJ);
+      usuarioPJ.setEmpresa(pessoaJuridica);
+      usuarioPJ.setPessoa(pessoaJuridica);
       usuarioPJ.setLogin(pessoaJuridica.getEmail());
 
 
@@ -69,6 +83,6 @@ public class PessoaServiceImpl implements PessoaService {
       usuarioRepository.insereAcessoUserPj(usuarioPJ.getId());
     }
 
-    return savedPJ;
+    return pessoaJuridica;
   }
 }
