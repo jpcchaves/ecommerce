@@ -1,7 +1,8 @@
 package com.jpcchaves.ecommerce.service;
 
-import com.jpcchaves.ecommerce.model.Pessoa;
+import com.jpcchaves.ecommerce.model.PessoaJuridica;
 
 public interface PessoaService {
-  String create(Pessoa pessoa);
+
+  PessoaJuridica salvarPJ(PessoaJuridica pessoaJuridica);
 }

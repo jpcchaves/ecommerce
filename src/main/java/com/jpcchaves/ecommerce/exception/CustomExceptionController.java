@@ -1,23 +1,29 @@
 package com.jpcchaves.ecommerce.exception;
 
-import com.jpcchaves.ecommerce.model.dto.*;
-import org.hibernate.exception.*;
-import org.slf4j.*;
-import org.springframework.dao.*;
-import org.springframework.http.*;
-import org.springframework.validation.*;
-import org.springframework.web.bind.*;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.*;
-import org.springframework.web.servlet.mvc.method.annotation.*;
+import com.jpcchaves.ecommerce.model.dto.ExceptionResponseDTO;
+import org.hibernate.exception.ConstraintViolationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.sql.*;
-import java.util.*;
+import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.List;
 
 @RestControllerAdvice
 public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
-  private static final Logger _logger = LoggerFactory.getLogger(CustomExceptionController.class);
+  private static final Logger _logger =
+      LoggerFactory.getLogger(CustomExceptionController.class);
 
   @ExceptionHandler({Exception.class, RuntimeException.class, Throwable.class})
   @Override
@@ -38,7 +44,8 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
     if (ex instanceof MethodArgumentNotValidException) {
 
-      List<ObjectError> objectErrorList = ((MethodArgumentNotValidException) ex).getBindingResult()
+      List<ObjectError> objectErrorList =
+          ((MethodArgumentNotValidException) ex).getBindingResult()
                                                                                 .getAllErrors();
 
 
@@ -54,11 +61,13 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
     exceptionResponseDTO.setCode(status.value() + "==>" + status.getReasonPhrase());
     exceptionResponseDTO.setError(errorMsg.toString());
 
-    return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(exceptionResponseDTO,
+                                HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   // Database exceptions
-  @ExceptionHandler({DataIntegrityViolationException.class, ConstraintViolationException.class, SQLException.class,})
+  @ExceptionHandler({DataIntegrityViolationException.class,
+      ConstraintViolationException.class, SQLException.class,})
   protected ResponseEntity<Object> handleExceptionDataIntegrity(Exception ex) {
 
     _logger.error(ex.getMessage());
@@ -87,7 +96,8 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
     exceptionResponseDTO.setError(errorMsg.toString());
     exceptionResponseDTO.setCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
 
-    return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    return new ResponseEntity<>(exceptionResponseDTO,
+                                HttpStatus.INTERNAL_SERVER_ERROR);
   }
 
   @ExceptionHandler(EntityNotFoundException.class)
@@ -103,6 +113,17 @@ public class CustomExceptionController extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(DuplicateResourceException.class)
   public ResponseEntity<ExceptionResponseDTO> handleDuplicateResourceException(DuplicateResourceException ex) {
+
+    ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
+
+    exceptionResponseDTO.setError(ex.getMessage());
+    exceptionResponseDTO.setCode(HttpStatus.BAD_REQUEST.toString());
+
+    return new ResponseEntity<>(exceptionResponseDTO, HttpStatus.BAD_REQUEST);
+  }
+
+  @ExceptionHandler(BadRequestException.class)
+  public ResponseEntity<ExceptionResponseDTO> handleBadRequestException(BadRequestException ex) {
 
     ExceptionResponseDTO exceptionResponseDTO = new ExceptionResponseDTO();
 

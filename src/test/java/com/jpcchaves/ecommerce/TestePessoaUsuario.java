@@ -1,47 +1,58 @@
 package com.jpcchaves.ecommerce;
 
+import com.jpcchaves.ecommerce.controller.PessoaController;
+import com.jpcchaves.ecommerce.enums.TipoEndereco;
+import com.jpcchaves.ecommerce.model.Endereco;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
-import com.jpcchaves.ecommerce.repository.PessoaRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
+import java.util.Calendar;
+import java.util.List;
+
 @Profile("test")
 @SpringBootTest
 public class TestePessoaUsuario {
 
-    private PessoaRepository pessoaRepository;
+  @Autowired
+  private PessoaController pessoaController;
 
-    @Autowired
-    public TestePessoaUsuario(
-            PessoaRepository pessoaRepository
-    ) {
-        this.pessoaRepository = pessoaRepository;
-    }
+  @Test
+  public void testCadPessoaJuridica() {
 
-    @Test
-    public void testCadPessoaFisica() {
+    PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
-        PessoaJuridica pessoaJuridica = new PessoaJuridica();
+    pessoaJuridica.setCnpj(String.valueOf(Calendar.getInstance()
+                                                  .getTimeInMillis()));
+    pessoaJuridica.setNome("Teste Teste");
+    pessoaJuridica.setEmail(String.format("tests%s@test.com",
+                                          Calendar.getInstance()
+                                                  .getTimeInMillis()));
+    pessoaJuridica.setTelefone("81999999999");
+    pessoaJuridica.setInscEstadual("81999999999");
+    pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
+    pessoaJuridica.setRazaoSocial("Razao Social");
 
-        pessoaJuridica.setCnpj("09075681499");
-        pessoaJuridica.setNome("Teste Teste");
-        pessoaJuridica.setEmail("test@test.com");
-        pessoaJuridica.setTelefone("81999999999");
-        pessoaJuridica.setInscEstadual("81999999999");
-        pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
-        pessoaJuridica.setRazaoSocial("Razao Social");
 
-        pessoaRepository.save(pessoaJuridica);
+    Endereco enderecoEntrega = new Endereco("Rua logradouro", "55000000",
+                                            "345", "complemento",
+                                            "bairro tal", "PE", "Caruaru",
+                                            pessoaJuridica,
+                                            TipoEndereco.ENTREGA,
+                                            pessoaJuridica);
 
-//
-//        PessoaFisica pessoaFisica = new PessoaFisica();
-//
-//        pessoaFisica.setCpf("09075681499");
-//        pessoaFisica.setNome("Teste Teste");
-//        pessoaFisica.setEmail("test@test.com");
-//        pessoaFisica.setTelefone("81999999999");
-//        pessoaFisica.setEmpresa(pessoaFisica.getEmpresa());
-    }
+    Endereco enderecoCobranca = new Endereco("Rua logradouro", "55000000",
+                                             "345", "complemento",
+                                             "bairro tal", "PE", "Caruaru",
+                                             pessoaJuridica,
+                                             TipoEndereco.COBRANCA,
+                                             pessoaJuridica);
+
+    pessoaJuridica.getEnderecos()
+                  .addAll(List.of(enderecoEntrega, enderecoCobranca));
+
+    pessoaController.salvarPJ(pessoaJuridica);
+  }
 }
