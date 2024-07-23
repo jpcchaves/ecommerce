@@ -35,13 +35,23 @@ public class TestePessoaUsuario {
     pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
     pessoaJuridica.setRazaoSocial("Razao Social");
 
-    pessoaJuridica.setEnderecos(
-        List.of(
-            new Endereco("Rua logradouro", "55000000", "345", "complemento",
-                         "bairro tal", "PE", "Caruaru", pessoaJuridica,
-                         TipoEndereco.COBRANCA, pessoaJuridica)
-        )
-    );
+
+    Endereco enderecoEntrega = new Endereco("Rua logradouro", "55000000",
+                                            "345", "complemento",
+                                            "bairro tal", "PE", "Caruaru",
+                                            pessoaJuridica,
+                                            TipoEndereco.ENTREGA,
+                                            pessoaJuridica);
+
+    Endereco enderecoCobranca = new Endereco("Rua logradouro", "55000000",
+                                             "345", "complemento",
+                                             "bairro tal", "PE", "Caruaru",
+                                             pessoaJuridica,
+                                             TipoEndereco.COBRANCA,
+                                             pessoaJuridica);
+
+    pessoaJuridica.getEnderecos()
+                  .addAll(List.of(enderecoEntrega, enderecoCobranca));
 
     pessoaController.salvarPJ(pessoaJuridica);
   }
