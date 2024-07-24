@@ -127,6 +127,23 @@ public class Endereco implements Serializable {
     this.tipoEndereco = tipoEndereco;
   }
 
+  public Endereco(Builder builder) {
+    this.id = builder.id;
+    this.ruaLogradouro = builder.ruaLogradouro;
+    this.cep = builder.cep;
+    this.numero = builder.numero;
+    this.complemento = builder.complemento;
+    this.bairro = builder.bairro;
+    this.uf = builder.uf;
+    this.cidade = builder.cidade;
+    this.pessoa = builder.pessoa;
+    this.tipoEndereco = builder.tipoEndereco;
+  }
+
+  public static Builder builder() {
+    return new Builder();
+  }
+
   public Long getId() {
     return id;
   }
@@ -207,6 +224,14 @@ public class Endereco implements Serializable {
     this.tipoEndereco = tipoEndereco;
   }
 
+  public Pessoa getEmpresa() {
+    return empresa;
+  }
+
+  public void setEmpresa(Pessoa empresa) {
+    this.empresa = empresa;
+  }
+
   @Override
   public String toString() {
     return "Endereco{"
@@ -253,11 +278,90 @@ public class Endereco implements Serializable {
     return Objects.hash(id);
   }
 
-  public Pessoa getEmpresa() {
-    return empresa;
+  public static class Builder {
+    private Long id;
+
+    private String ruaLogradouro;
+
+    private String cep;
+
+    private String numero;
+
+    private String complemento;
+
+    private String bairro;
+
+    private String uf;
+
+    private String cidade;
+
+    private Pessoa pessoa;
+
+    private TipoEndereco tipoEndereco;
+
+    private Pessoa empresa;
+
+    public Builder() {
+    }
+
+    public Builder setId(Long id) {
+      this.id = id;
+      return this;
+    }
+
+    public Builder setRuaLogradouro(String ruaLogradouro) {
+      this.ruaLogradouro = ruaLogradouro;
+      return this;
+    }
+
+    public Builder setCep(String cep) {
+      this.cep = cep;
+      return this;
+    }
+
+    public Builder setNumero(String numero) {
+      this.numero = numero;
+      return this;
+    }
+
+    public Builder setComplemento(String complemento) {
+      this.complemento = complemento;
+      return this;
+    }
+
+    public Builder setBairro(String bairro) {
+      this.bairro = bairro;
+      return this;
+    }
+
+    public Builder setUf(String uf) {
+      this.uf = uf;
+      return this;
+    }
+
+    public Builder setCidade(String cidade) {
+      this.cidade = cidade;
+      return this;
+    }
+
+    public Builder setPessoa(Pessoa pessoa) {
+      this.pessoa = pessoa;
+      return this;
+    }
+
+    public Builder setTipoEndereco(TipoEndereco tipoEndereco) {
+      this.tipoEndereco = tipoEndereco;
+      return this;
+    }
+
+    public Builder setEmpresa(Pessoa empresa) {
+      this.empresa = empresa;
+      return this;
+    }
+
+    public Endereco build() {
+      return new Endereco(this);
+    }
   }
 
-  public void setEmpresa(Pessoa empresa) {
-    this.empresa = empresa;
-  }
 }

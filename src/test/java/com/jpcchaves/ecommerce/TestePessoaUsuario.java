@@ -37,19 +37,34 @@ public class TestePessoaUsuario {
     pessoaJuridica.setRazaoSocial("Razao Social");
 
 
-    Endereco enderecoEntrega = new Endereco("Rua logradouro", "55000000",
-                                            "345", "complemento",
-                                            "bairro tal", "PE", "Caruaru",
-                                            pessoaJuridica,
-                                            TipoEndereco.ENTREGA,
-                                            pessoaJuridica);
+    Endereco enderecoEntrega = Endereco
+        .builder()
+        .setRuaLogradouro("Rua Logradouro")
+        .setCep("55000000")
+        .setNumero("345")
+        .setComplemento("Complemento")
+        .setBairro("Bairro")
+        .setUf("PE")
+        .setCidade("Caruaru")
+        .setPessoa(pessoaJuridica)
+        .setEmpresa(pessoaJuridica)
+        .setTipoEndereco(TipoEndereco.ENTREGA)
+        .build();
 
-    Endereco enderecoCobranca = new Endereco("Rua logradouro", "55000000",
-                                             "345", "complemento",
-                                             "bairro tal", "PE", "Caruaru",
-                                             pessoaJuridica,
-                                             TipoEndereco.COBRANCA,
-                                             pessoaJuridica);
+
+    Endereco enderecoCobranca = Endereco
+        .builder()
+        .setRuaLogradouro("Rua Logradouro")
+        .setCep("55000000")
+        .setNumero("345")
+        .setComplemento("Complemento")
+        .setBairro("Bairro")
+        .setUf("PE")
+        .setCidade("Caruaru")
+        .setPessoa(pessoaJuridica)
+        .setEmpresa(pessoaJuridica)
+        .setTipoEndereco(TipoEndereco.COBRANCA)
+        .build();
 
     pessoaJuridica.getEnderecos()
                   .addAll(List.of(enderecoEntrega, enderecoCobranca));
