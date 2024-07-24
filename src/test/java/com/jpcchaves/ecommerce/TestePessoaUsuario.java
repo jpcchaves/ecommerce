@@ -12,6 +12,9 @@ import org.springframework.context.annotation.Profile;
 import java.util.Calendar;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 @Profile("test")
 @SpringBootTest
 public class TestePessoaUsuario {
@@ -53,6 +56,19 @@ public class TestePessoaUsuario {
     pessoaJuridica.getEnderecos()
                   .addAll(List.of(enderecoEntrega, enderecoCobranca));
 
-    pessoaController.salvarPJ(pessoaJuridica);
+    pessoaJuridica = pessoaController.salvarPJ(pessoaJuridica)
+                                     .getBody();
+
+    assertNotNull(pessoaJuridica);
+    assertNotNull(pessoaJuridica.getId());
+
+    for (Endereco endereco : pessoaJuridica.getEnderecos()) {
+
+      assertNotNull(endereco.getId());
+    }
+
+    assertEquals(2, pessoaJuridica.getEnderecos()
+                                  .size());
+
   }
 }
