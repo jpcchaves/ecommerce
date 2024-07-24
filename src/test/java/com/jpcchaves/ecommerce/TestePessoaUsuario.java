@@ -23,16 +23,14 @@ public class TestePessoaUsuario {
   private PessoaController pessoaController;
 
   @Test
-  public void testCadPessoaJuridica() {
+  public void testCadPessoaJuridica() throws InterruptedException {
 
     PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
     pessoaJuridica.setCnpj(String.valueOf(Calendar.getInstance()
                                                   .getTimeInMillis()));
     pessoaJuridica.setNome("Teste Teste");
-    pessoaJuridica.setEmail(String.format("tests%s@test.com",
-                                          Calendar.getInstance()
-                                                  .getTimeInMillis()));
+    pessoaJuridica.setEmail("jpcchaves@outlook.com");
     pessoaJuridica.setTelefone("81999999999");
     pessoaJuridica.setInscEstadual("81999999999");
     pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
@@ -58,6 +56,9 @@ public class TestePessoaUsuario {
 
     pessoaJuridica = pessoaController.salvarPJ(pessoaJuridica)
                                      .getBody();
+
+    // await for the email service send the confirmation email
+    Thread.sleep(10000);
 
     assertNotNull(pessoaJuridica);
     assertNotNull(pessoaJuridica.getId());
