@@ -1,6 +1,8 @@
 package com.jpcchaves.ecommerce.service.impl;
 
 import com.jpcchaves.ecommerce.service.EmailService;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Address;
@@ -19,10 +21,13 @@ import java.util.Properties;
 @Service
 public class EmailServiceImpl implements EmailService {
 
-  private static final String userName = "alexemailformacaojavaweb@gmail.com";
-  private static final String pwd = "g}_dB,EVUt4T";
+  @Value("${smtp.mail}")
+  private String userName;
+  @Value("${smtp.password}")
+  private String pwd;
 
   @Override
+  @Async
   public void send(
       String subject,
       String body,
@@ -34,19 +39,19 @@ public class EmailServiceImpl implements EmailService {
     properties.putAll(
         Map.of(
             "mail.smtp.ssl.trust", "*",
-            "mail.smtp.ssl.auth", "true",
+            "mail.smtp.auth", "true",
             "mail.smtp.starttls", "false",
-            "mail.smtp.host", "smtl.gmail.com",
+            "mail.smtp.host", "smtp.gmail.com",
             "mail.smtp.port", "465",
             "mail.smtp.socketFactory.port", "465",
             "mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory"
         )
     );
-
-
+    
     Session session = Session.getInstance(properties, new Authenticator() {
       @Override
       protected PasswordAuthentication getPasswordAuthentication() {
+
         return new PasswordAuthentication(userName, pwd);
       }
     });
