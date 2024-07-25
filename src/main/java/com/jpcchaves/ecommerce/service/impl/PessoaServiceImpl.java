@@ -5,10 +5,16 @@ import com.jpcchaves.ecommerce.model.PessoaJuridica;
 import com.jpcchaves.ecommerce.model.Usuario;
 import com.jpcchaves.ecommerce.repository.PessoaRepository;
 import com.jpcchaves.ecommerce.repository.UsuarioRepository;
+import com.jpcchaves.ecommerce.service.EmailService;
 import com.jpcchaves.ecommerce.service.PessoaService;
+import com.jpcchaves.ecommerce.utils.EmailTemplateUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
@@ -16,15 +22,20 @@ import java.util.Objects;
 @Service
 public class PessoaServiceImpl implements PessoaService {
 
+  private static final Logger logger =
+      LoggerFactory.getLogger(PessoaServiceImpl.class);
   private final PessoaRepository pessoaRepository;
   private final UsuarioRepository usuarioRepository;
+  private final EmailService emailService;
 
   public PessoaServiceImpl(
       PessoaRepository pessoaRepository,
-      UsuarioRepository usuarioRepository
+      UsuarioRepository usuarioRepository,
+      EmailService emailService
   ) {
     this.pessoaRepository = pessoaRepository;
     this.usuarioRepository = usuarioRepository;
+    this.emailService = emailService;
   }
 
 
@@ -61,6 +72,9 @@ public class PessoaServiceImpl implements PessoaService {
     Usuario usuarioPJ = usuarioRepository.findByPessoa(pessoaJuridica.getId(),
                                                        pessoaJuridica.getEmail());
 
+    String senha = String.valueOf(Calendar.getInstance()
+                                          .getTimeInMillis());
+
     if (Objects.isNull(usuarioPJ)) {
 
       usuarioPJ = new Usuario();
@@ -70,10 +84,6 @@ public class PessoaServiceImpl implements PessoaService {
       usuarioPJ.setPessoa(pessoaJuridica);
       usuarioPJ.setLogin(pessoaJuridica.getEmail());
 
-
-      String senha = String.valueOf(Calendar.getInstance()
-                                            .getTimeInMillis());
-
       String senhaCriptografada = new BCryptPasswordEncoder(8).encode(senha);
 
       usuarioPJ.setSenha(senhaCriptografada);
@@ -82,6 +92,23 @@ public class PessoaServiceImpl implements PessoaService {
 
       usuarioRepository.insereAcessoUserPj(usuarioPJ.getId());
     }
+
+    try {
+
+      emailService.send(
+          "Acesso para loja virtual gerado",
+          EmailTemplateUtil.buildConfirmationEmail(pessoaJuridica.getNome(),
+                                                   pessoaJuridica.getEmail(),
+                                                   senha),
+          pessoaJuridica.getEmail()
+      );
+
+    } catch (MessagingException | UnsupportedEncodingException ex) {
+
+      logger.error("An error occurred while sending the register email!");
+      logger.error(ex.getMessage());
+    }
+
 
     return pessoaJuridica;
   }
