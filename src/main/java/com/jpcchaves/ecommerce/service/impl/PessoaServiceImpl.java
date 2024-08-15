@@ -90,7 +90,8 @@ public class PessoaServiceImpl implements PessoaService {
 
       usuarioPJ = usuarioRepository.save(usuarioPJ);
 
-      usuarioRepository.insereAcessoUserPj(usuarioPJ.getId());
+      usuarioRepository.insereAcessoUserPj(usuarioPJ.getId(), "ROLE_USER");
+      usuarioRepository.insereAcessoUserPj(usuarioPJ.getId(), "ROLE_ADMIN");
     }
 
     try {
