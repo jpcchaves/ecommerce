@@ -24,13 +24,12 @@ public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
       String email
   );
 
+  // make sure to insert default roles
   @Modifying
   @Transactional
   @Query(
-      nativeQuery = true,
-      value = "insert into usuarios_acesso(usuario_id, acesso_id) values (?1," +
-          " " +
-          "(select id from acesso where descricao = 'ROLE_USER'))"
+          nativeQuery = true,
+          value = "insert into usuarios_acesso(usuario_id, acesso_id) values (?1, (select id from acesso where descricao = ?2 limit 1))"
   )
-  void insereAcessoUserPj(Long idUser);
+  void insereAcessoUserPj(Long idUser, String role);
 }
