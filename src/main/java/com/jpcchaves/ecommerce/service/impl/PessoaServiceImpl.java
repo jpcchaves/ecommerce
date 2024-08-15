@@ -53,6 +53,12 @@ public class PessoaServiceImpl implements PessoaService {
                                         " com o CNPJ informado");
     }
 
+    if (Objects.isNull(pessoaJuridica.getId()) && pessoaRepository.existsByInscEstadual(pessoaJuridica.getInscEstadual()) != null) {
+
+      throw new BadRequestException("Ja existe uma pessoa juridica cadastrada" +
+                                        " com a Inscricao Estadual informada");
+    }
+
 
     for (int i = 0; i < pessoaJuridica.getEnderecos()
                                       .size(); i++) {
