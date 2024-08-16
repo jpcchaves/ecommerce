@@ -1,13 +1,16 @@
 package com.jpcchaves.ecommerce.utils;
 
-import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 class CpfValidatorTest {
+
+  private static final Logger logger = LoggerFactory.getLogger(CpfValidatorTest.class);
 
   private static final List<String> validCpfs =
       Collections.unmodifiableList(
@@ -20,10 +23,15 @@ class CpfValidatorTest {
   @Test
   void isValid() {
 
+    logger.info("Validating valid CPFs...");
+
     for (String validCpf : validCpfs) {
 
-      assertTrue(CpfValidator.isValid(validCpf));
+      assertTrue(
+          CpfValidator.isValid(validCpf), () -> "CPF: " + validCpf + "didn't pass the validation");
     }
+
+    logger.info("Validating invalid CPFs...");
 
     for (String invalidCpf : invalidCpfs) {
 

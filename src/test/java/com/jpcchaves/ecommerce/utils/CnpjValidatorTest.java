@@ -1,6 +1,8 @@
 package com.jpcchaves.ecommerce.utils;
 
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,6 +10,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class CnpjValidatorTest {
+
+  private static final Logger logger = LoggerFactory.getLogger(CnpjValidatorTest.class);
 
   private static final List<String> validCnpjs =
       Collections.unmodifiableList(
@@ -21,10 +25,16 @@ class CnpjValidatorTest {
   @Test
   void isValid() {
 
+    logger.info("Validating valid CNPJs...");
+
     for (String validCnpj : validCnpjs) {
 
-      assertTrue(CnpjValidator.isValid(validCnpj));
+      assertTrue(
+          CnpjValidator.isValid(validCnpj),
+          () -> "CNPJ: " + validCnpj + "didn't pass the validation");
     }
+
+    logger.info("Validating invalid CNPJs...");
 
     for (String invalidCnpj : invalidCnpjs) {
 
