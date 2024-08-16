@@ -1,5 +1,6 @@
 package com.jpcchaves.ecommerce.controller;
 
+import com.jpcchaves.ecommerce.model.PessoaFisica;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
 import com.jpcchaves.ecommerce.service.PessoaService;
 import org.springframework.http.HttpStatus;
@@ -22,7 +23,12 @@ public class PessoaController {
   @PostMapping("/pj")
   public ResponseEntity<PessoaJuridica> salvarPJ(@RequestBody PessoaJuridica pessoaJuridica) {
 
-    return ResponseEntity.status(HttpStatus.CREATED)
-                         .body(pessoaService.salvarPJ(pessoaJuridica));
+    return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.salvarPJ(pessoaJuridica));
+  }
+
+  @PostMapping("/pf")
+  public ResponseEntity<PessoaFisica> salvarPF(@RequestBody PessoaFisica pessoaFisica) {
+
+    return ResponseEntity.status(HttpStatus.CREATED).body(pessoaService.salvarPF(pessoaFisica));
   }
 }
