@@ -9,27 +9,41 @@ import com.jpcchaves.ecommerce.model.Endereco;
 import com.jpcchaves.ecommerce.model.PessoaFisica;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
 import java.util.List;
+
+import com.jpcchaves.ecommerce.repository.PessoaRepository;
+import net.datafaker.Faker;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Profile;
 
 @Profile("test")
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TestePessoaUsuario {
 
   @Autowired private PessoaController pessoaController;
 
+  @Autowired private PessoaRepository pessoaRepository;
+
+  private Faker faker = new Faker();
+
+  private String cnpj;
+
   @Test
+  @Order(1)
   public void testCadPessoaJuridica() throws InterruptedException {
 
     PessoaJuridica pessoaJuridica = new PessoaJuridica();
 
-    pessoaJuridica.setCnpj("02.439.617/0001-33");
+    pessoaJuridica.setCnpj(faker.cnpj().valid());
     pessoaJuridica.setNome("Teste Teste");
     pessoaJuridica.setEmail("jpcchaves@outlook.com");
     pessoaJuridica.setTelefone("81999999999");
-    pessoaJuridica.setInscEstadual("81999999999");
+    pessoaJuridica.setInscEstadual(faker.cnpj().valid(false));
     pessoaJuridica.setNomeFanstasia("Nome Fantasia Test");
     pessoaJuridica.setRazaoSocial("Razao Social");
 
@@ -65,6 +79,9 @@ public class TestePessoaUsuario {
 
     pessoaJuridica = pessoaController.salvarPJ(pessoaJuridica).getBody();
 
+    assert pessoaJuridica != null;
+    cnpj = pessoaJuridica.getCnpj();
+
     // await for the email service send the confirmation email
     Thread.sleep(10000);
 
@@ -80,13 +97,16 @@ public class TestePessoaUsuario {
   }
 
   @Test
+  @Order(2)
   public void testCadPessoaFisica() throws InterruptedException {
+
+    PessoaJuridica pessoaJuridica = pessoaRepository.existsByCnpj(cnpj);
 
     PessoaFisica pessoaFisica = new PessoaFisica();
 
-    pessoaFisica.setCpf("418.360.720-58");
+    pessoaFisica.setCpf(faker.cpf().valid());
     pessoaFisica.setNome("Teste Teste");
-    pessoaFisica.setEmail("jpcchaves@outlook.com");
+    pessoaFisica.setEmail(faker.internet().emailAddress());
     pessoaFisica.setTelefone("81999999999");
 
     Endereco enderecoEntrega =
@@ -99,7 +119,7 @@ public class TestePessoaUsuario {
             .setUf("PE")
             .setCidade("Caruaru")
             .setPessoa(pessoaFisica)
-            .setEmpresa(pessoaFisica)
+            .setEmpresa(pessoaJuridica)
             .setTipoEndereco(TipoEndereco.ENTREGA)
             .build();
 
@@ -113,7 +133,7 @@ public class TestePessoaUsuario {
             .setUf("PE")
             .setCidade("Caruaru")
             .setPessoa(pessoaFisica)
-            .setEmpresa(pessoaFisica)
+            .setEmpresa(pessoaJuridica)
             .setTipoEndereco(TipoEndereco.COBRANCA)
             .build();
 
