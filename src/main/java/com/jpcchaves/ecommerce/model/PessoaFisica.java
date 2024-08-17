@@ -1,5 +1,7 @@
 package com.jpcchaves.ecommerce.model;
 
+import org.hibernate.validator.constraints.br.CPF;
+
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import javax.persistence.*;
 public class PessoaFisica extends Pessoa implements Serializable {
   private static final long serialVersionUID = 1988296739060279654L;
 
+  @CPF(message = "CPF invalido")
   @Column(nullable = false)
   private String cpf;
 
