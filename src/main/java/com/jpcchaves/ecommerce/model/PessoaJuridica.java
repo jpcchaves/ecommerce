@@ -1,5 +1,8 @@
 package com.jpcchaves.ecommerce.model;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+import org.hibernate.validator.constraints.br.CPF;
+
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.ConstraintMode;
@@ -17,6 +20,7 @@ import javax.persistence.Table;
 public class PessoaJuridica extends Pessoa implements Serializable {
   private static final long serialVersionUID = -7283560402401510313L;
 
+  @CNPJ(message = "CNPJ invalido")
   @Column(nullable = false)
   private String cnpj;
 
