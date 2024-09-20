@@ -4,23 +4,24 @@ import com.jpcchaves.ecommerce.exception.BadRequestException;
 import com.jpcchaves.ecommerce.model.PessoaFisica;
 import com.jpcchaves.ecommerce.model.PessoaJuridica;
 import com.jpcchaves.ecommerce.model.Usuario;
+import com.jpcchaves.ecommerce.model.dto.ViaCepDTO;
 import com.jpcchaves.ecommerce.repository.PessoaRepository;
 import com.jpcchaves.ecommerce.repository.UsuarioRepository;
+import com.jpcchaves.ecommerce.service.CepService;
 import com.jpcchaves.ecommerce.service.EmailService;
 import com.jpcchaves.ecommerce.service.PessoaService;
 import com.jpcchaves.ecommerce.utils.CnpjValidator;
 import com.jpcchaves.ecommerce.utils.CpfValidator;
 import com.jpcchaves.ecommerce.utils.EmailTemplateUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Service;
-
-import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
+import javax.mail.MessagingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 @Service
 public class PessoaServiceImpl implements PessoaService {
@@ -29,14 +30,17 @@ public class PessoaServiceImpl implements PessoaService {
   private final PessoaRepository pessoaRepository;
   private final UsuarioRepository usuarioRepository;
   private final EmailService emailService;
+  private final CepService cepService;
 
   public PessoaServiceImpl(
       PessoaRepository pessoaRepository,
       UsuarioRepository usuarioRepository,
-      EmailService emailService) {
+      EmailService emailService,
+      CepService cepService) {
     this.pessoaRepository = pessoaRepository;
     this.usuarioRepository = usuarioRepository;
     this.emailService = emailService;
+    this.cepService = cepService;
   }
 
   @Override
@@ -64,6 +68,17 @@ public class PessoaServiceImpl implements PessoaService {
     if (!CnpjValidator.isValid(pessoaJuridica.getCnpj())) {
 
       throw new BadRequestException("CNPJ invalido!");
+    }
+
+    for (int p = 0; p < pessoaJuridica.getEnderecos().size(); p++) {
+
+      ViaCepDTO cepDTO = cepService.consultaCep(pessoaJuridica.getEnderecos().get(p).getCep());
+
+      pessoaJuridica.getEnderecos().get(p).setBairro(cepDTO.getBairro());
+      pessoaJuridica.getEnderecos().get(p).setCidade(cepDTO.getLocalidade());
+      pessoaJuridica.getEnderecos().get(p).setComplemento(cepDTO.getComplemento());
+      pessoaJuridica.getEnderecos().get(p).setRuaLogradouro(cepDTO.getLogradouro());
+      pessoaJuridica.getEnderecos().get(p).setUf(cepDTO.getUf());
     }
 
     for (int i = 0; i < pessoaJuridica.getEnderecos().size(); i++) {
@@ -134,6 +149,17 @@ public class PessoaServiceImpl implements PessoaService {
     if (!CpfValidator.isValid(pessoaFisica.getCpf())) {
 
       throw new BadRequestException("CPF invalido!");
+    }
+
+    for (int p = 0; p < pessoaFisica.getEnderecos().size(); p++) {
+
+      ViaCepDTO cepDTO = cepService.consultaCep(pessoaFisica.getEnderecos().get(p).getCep());
+
+      pessoaFisica.getEnderecos().get(p).setBairro(cepDTO.getBairro());
+      pessoaFisica.getEnderecos().get(p).setCidade(cepDTO.getLocalidade());
+      pessoaFisica.getEnderecos().get(p).setComplemento(cepDTO.getComplemento());
+      pessoaFisica.getEnderecos().get(p).setRuaLogradouro(cepDTO.getLogradouro());
+      pessoaFisica.getEnderecos().get(p).setUf(cepDTO.getUf());
     }
 
     for (int i = 0; i < pessoaFisica.getEnderecos().size(); i++) {
